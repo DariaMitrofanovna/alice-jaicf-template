@@ -1,6 +1,9 @@
 package com.justai.jaicf.template.trainer
 
 import com.justai.jaicf.api.BotRequest
+import com.justai.jaicf.api.BotRequestType
+import com.justai.jaicf.api.EventBotRequest
+import com.justai.jaicf.api.hasEvent
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.alice
 import com.justai.jaicf.context.ActionContext
@@ -15,19 +18,26 @@ class TrainerHandler {
         request = ctx.request
         alice = ctx.reactions.alice!!
 
-        // do some work
-        handleInternal()
+        when (ctx.request.type) {
+            BotRequestType.EVENT -> handleEvent()
+            BotRequestType.QUERY -> handleQuery()
+            else -> fallback()
+        }
     }
 
-    private fun handleInternal() {
-        when (val input = request.input) {
-            "start" -> {
-                alice.say(text = "Привет! Этот навык еще в разработке.")
-            }
+    private fun fallback() {
+        alice.say("Что-то пошло не так, падаю...")
+    }
 
-            else -> {
-                alice.say(text = "Ты сказал: ${input}")
-            }
+    private fun handleEvent() {
+        if (request.input == "start") {
+            alice.say(text = "Привет! Этот навык еще в разработке.")
+        } else {
+            fallback()
         }
+    }
+
+    private fun handleQuery() {
+        alice.say(text = "Ты сказал: ${request.input}")
     }
 }
