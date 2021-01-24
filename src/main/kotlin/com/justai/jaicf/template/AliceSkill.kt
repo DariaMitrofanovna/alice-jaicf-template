@@ -5,9 +5,10 @@ import com.justai.jaicf.activator.catchall.CatchAllActivator
 import com.justai.jaicf.activator.event.BaseEventActivator
 import com.justai.jaicf.activator.regex.RegexActivator
 import com.justai.jaicf.template.scenario.MainScenario
+import com.justai.jaicf.template.trainer.TrainerScenario
 
 val skill = BotEngine(
-    model = MainScenario.model,
+    model = TrainerScenario().model,
     activators = arrayOf(
         RegexActivator,
         BaseEventActivator,
