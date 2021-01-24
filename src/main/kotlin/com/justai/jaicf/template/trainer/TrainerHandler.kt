@@ -38,6 +38,6 @@ class TrainerHandler {
     }
 
     private fun handleQuery() {
-        alice.say(text = "Ты сказал: ${request.input}")
+        alice.say(text = "Ты сказал: ${request.input}!")
     }
 }
