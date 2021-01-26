@@ -4,7 +4,7 @@ import com.justai.jaicf.BotEngine
 import com.justai.jaicf.activator.catchall.CatchAllActivator
 import com.justai.jaicf.activator.event.BaseEventActivator
 import com.justai.jaicf.activator.regex.RegexActivator
-import com.justai.jaicf.template.scenario.MainScenario
+import com.justai.jaicf.channel.yandexalice.activator.AliceIntentActivator
 import com.justai.jaicf.template.trainer.TrainerScenario
 
 val skill = BotEngine(
@@ -12,6 +12,7 @@ val skill = BotEngine(
     activators = arrayOf(
         RegexActivator,
         BaseEventActivator,
-        CatchAllActivator
+        CatchAllActivator,
+        AliceIntentActivator
     )
 )
