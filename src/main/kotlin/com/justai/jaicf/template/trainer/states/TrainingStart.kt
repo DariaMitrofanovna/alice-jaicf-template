@@ -8,7 +8,7 @@ class TrainingStart : State() {
 
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
         return if(intentUtil.isIntentPresent(request, IntentType.START) == true || request.input == "да" || request.input == "готов" || request.input == "начинаем") {
-            alice.say("Побежали!", tts = "Побежали!")
+            alice.say("Беги примерно минуту, потом скажи Стоп. На старт, внимание, марш!")
             alice.buttons("Стоп, давай упражнения")
 
             Running()
