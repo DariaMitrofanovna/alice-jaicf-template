@@ -2,6 +2,7 @@ package com.justai.jaicf.template.trainer
 
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.context.ActionContext
+import com.justai.jaicf.template.db.FileDb
 
 class TrainerHandler {
 
@@ -9,6 +10,9 @@ class TrainerHandler {
         (ctx.request as? AliceBotRequest)?.also {
             val userAppId = it.session.application.applicationId
             val userSession = UserSessionRepository.getOrCreate(userAppId)
+
+            FileDb.write(userAppId, ctx.toString())
+
             userSession.handle(ctx)
         }
             ?: throw IllegalStateException("wtf")

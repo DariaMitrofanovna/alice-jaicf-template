@@ -7,7 +7,7 @@ abstract class Db {
     abstract fun write(userId: String, info: String)
 }
 
-class FileDb : Db() {
+object FileDb : Db() {
     override fun read(userId: String): String {
         val content: String
         content = if (File("$userId.txt").exists()) {
@@ -20,7 +20,8 @@ class FileDb : Db() {
 
     override fun write(userId: String, info: String) {
         if (File("$userId.txt").exists()) {
-            File(userId).writeText(info, Charsets.UTF_8)
+            File(userId).appendText(info, Charsets.UTF_8)
+            File(userId).appendText("\n", Charsets.UTF_8)
         } else {
             val file = File("$userId.txt");
             file.createNewFile();
