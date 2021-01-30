@@ -16,7 +16,8 @@ class TrainerHandler {
             FileDb.write(
                 userAppId,
                 buildString {
-                    append("time: ${LocalDate.now()}; ")
+                    append("date: ${LocalDate.now()}; ")
+                    append("time: ${LocalTime.now()}; ")
                     append("type: ${ctx.request.type}; ")
                     append("input: ${ctx.request.input}; ")
                     append("intents: ${(ctx.request as? AliceBotRequest)?.request?.nlu?.intents?.entries?.joinToString { it.key + " - " + it.value.toString() }}; ")
