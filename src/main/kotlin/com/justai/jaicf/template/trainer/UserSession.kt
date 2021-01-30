@@ -10,8 +10,8 @@ class UserSession(
     private val userAppId: String
 ) {
     private val initialState: State
-//        get() = InitialState()
-        get() = Running() // fixme
+        get() = InitialState()
+//        get() = Running() // fixme
 
     private var state: State = initialState
 
