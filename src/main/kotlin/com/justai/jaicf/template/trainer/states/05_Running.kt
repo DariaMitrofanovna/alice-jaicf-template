@@ -13,10 +13,10 @@ class Running(val level: Int = 0, val prevExcercise: Excercise? = null) : State(
         // to end
         if (request.input.toLowerCase().contains(regex = Regex("хорош|устал|довольно"))) {
             alice.image(
-                url = Images.endUrl,
+                url = Images.sadEndUrl,
                 title = "Отдыхай"
             )
-            return End()
+            return HappyEnd()
         }
 
         // next excercise

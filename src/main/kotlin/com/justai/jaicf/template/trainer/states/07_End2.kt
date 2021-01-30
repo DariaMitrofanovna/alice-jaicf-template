@@ -7,7 +7,7 @@ import com.justai.jaicf.template.res.Images
 class SadEnd : State() {
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
         alice.image(
-            url = Images.sadEndUrl,
+            url = Images.happyEndUrl,
             title = "Sad end"
         )
         return this
