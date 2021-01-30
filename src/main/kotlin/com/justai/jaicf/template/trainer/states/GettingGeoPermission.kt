@@ -30,7 +30,7 @@ class GettingGeoPermission : State() {
         }
 
         alice.buttons(
-            "Вокруг Кремля", "В парке"
+            "Вокруг Кремля", "Своё место"
         )
 
         return ChoosingPlace()
