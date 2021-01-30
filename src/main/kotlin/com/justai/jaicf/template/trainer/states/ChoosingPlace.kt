@@ -8,7 +8,7 @@ class ChoosingPlace : State() {
 
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
         if (intentUtil.isIntentPresent(request, IntentType.KREMLIN) == true || request.input == ("вокруг кремля")) {
-            alice.say("Кремль - чуть пойзже. Пока что есть только парк")
+            alice.say("Кремль - чуть пойзже. Пока что есть только парк. Скажите \"Готов\", и мы начнём тренировку!")
             alice.buttons("готов!")
             return TrainingStart()
         } else if (intentUtil.isIntentPresent(request, IntentType.MY_CHOICE) == true || request.input == ("в парке")) {
