@@ -6,7 +6,9 @@ import kotlin.random.Random
 
 class GettingGeoPermission : State() {
 
+
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
+
         alice.say(
             """
                 Понадобится место, где вы будете бегать.

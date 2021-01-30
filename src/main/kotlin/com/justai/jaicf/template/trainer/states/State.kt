@@ -4,9 +4,14 @@ import com.justai.jaicf.api.BotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.alice
 import com.justai.jaicf.context.ActionContext
+import com.justai.jaicf.template.util.intent.IntentUtil
+import com.justai.jaicf.template.util.user.UserUtil
 
 
 abstract class State {
+
+    val intentUtil = IntentUtil()
+    val userUtil = UserUtil()
 
     fun handle(ctx: ActionContext): State {
         val alice = ctx.reactions.alice!! // todo: doublecheck

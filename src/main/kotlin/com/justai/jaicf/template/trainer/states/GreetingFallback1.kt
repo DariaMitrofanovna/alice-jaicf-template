@@ -2,14 +2,13 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.api.BotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import com.justai.jaicf.template.res.Images
 
-class HappyEnd : State() {
+class GreetingFallback1 : State() {
+
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
-        alice.image(
-            url = Images.happyEndUrl,
-            title = "Happy end"
-        )
-        return this
+
+        alice.say("Не до конца Вас поняла. Готовы начать тренировку?")
+        alice.buttons("да")
+        return ApprovingStart1()
     }
 }
