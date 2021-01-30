@@ -10,6 +10,6 @@ enum class IntentType(val type: String) {
     BEGINIG("begining"),
 
     OVERCOME("overcome"),
-    STOP("stop")
+    ENOUGH("enough")
 }
 
