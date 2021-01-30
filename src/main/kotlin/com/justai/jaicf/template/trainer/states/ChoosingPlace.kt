@@ -17,7 +17,7 @@ class ChoosingPlace : State() {
             return TrainingStart()
         } else alice.say("Не поняла Вас. Ответьте еще разок, пожалуйста")
         alice.buttons(
-            "Вокруг Кремля", "В парке"
+            "Вокруг Кремля", "Своё место"
         )
         return this
 //            if (userUtil.hasGeoLocation(request.clientId)) {
