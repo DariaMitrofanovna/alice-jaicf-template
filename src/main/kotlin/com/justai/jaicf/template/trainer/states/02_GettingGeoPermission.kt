@@ -2,15 +2,13 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.api.BotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import com.justai.jaicf.template.util.intent.IntentUtil
 import kotlin.random.Random
 
 class GettingGeoPermission : State() {
 
-    private val intentUtil = IntentUtil()
 
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
-//        if (intentUtil.isIntentPresent(request, IntentType.YES) == true) {}
+
         alice.say(
             """
                 Понадобится место, где вы будете бегать.

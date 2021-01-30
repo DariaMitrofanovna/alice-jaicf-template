@@ -2,7 +2,6 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.api.BotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import com.justai.jaicf.channel.yandexalice.api.model.Image
 import com.justai.jaicf.template.res.Images
 
 class Running(val level: Int = 0) : State() {
@@ -10,10 +9,10 @@ class Running(val level: Int = 0) : State() {
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
         if (request.input.toLowerCase().contains(regex = Regex("хорош|устал|довольно"))) {
             alice.image(
-                url = Images.endUrl,
+                url = Images.happyEndUrl,
                 title = "Отдыхай"
             )
-            return End()
+            return HappyEnd()
         } else {
 //            alice.say("С вас 30 приседаний, поехали!")
 //            alice.image(

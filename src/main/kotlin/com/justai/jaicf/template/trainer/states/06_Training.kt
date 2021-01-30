@@ -11,7 +11,6 @@ class Training(private val level: Int, private val startTime: Long) : State() {
         alice.buttons(
             "Хорош!", "Я устал", "Довольно!", "Еще упражнений"
         )
-
         return Running(level = level + 1)
     }
 }
