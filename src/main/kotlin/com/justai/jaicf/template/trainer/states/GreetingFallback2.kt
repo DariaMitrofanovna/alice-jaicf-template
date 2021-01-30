@@ -7,8 +7,8 @@ class GreetingFallback2 : State() {
 
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
 
-        alice.say("Извините, не поняла Вас. Начнем с начала или в другой раз?")
-        alice.buttons("Заново", "В другой раз")
+        alice.say("Чтобы начать тренировку, скажите мне, что Вы готовы. Например: \"Начинаем!\"")
+        alice.buttons("Начинаем!")
         return ApprovingStart2()
     }
 }

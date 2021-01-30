@@ -8,7 +8,7 @@ enum class IntentType(val type: String) {
     READY("ready"),
     START("start"),
     BEGINIG("begining"),
-    NOT_NOW("notNow"),
+
     OVERCOME("overcome"),
     STOP("stop")
 }

@@ -5,14 +5,14 @@ import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.template.util.intent.IntentType
 
 
-class ApprovingStart2 : State() {
+class ApprovingStart3 : State() {
 
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
 
-        return if (intentUtil.isIntentPresent(request, IntentType.START) == true || request.input == "начинаем" || request.input == "готов") {
-            TrainingStart().handleInternal(request, alice)
+        return if (intentUtil.isIntentPresent(request, IntentType.BEGINIG) == true || request.input == "заново") {
+            return InitialState().handleInternal(request, alice)
         } else {
-            GreetingFallback3().handleInternal(request, alice)
+            SadEnd().handleInternal(request, alice)
         }
     }
 }
