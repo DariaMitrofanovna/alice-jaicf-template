@@ -21,7 +21,7 @@ class Running(val level: Int = 0, val prevExcercise: Excercise? = null) : State(
 
         // next excercise
         val nextExcercise = TrainingRepository.getRandomExcercise(prevExcercise?.type)
-        val title = nextExcercise.genRandomTitle()
+        val title = nextExcercise.genRandomTitle() + " Скажи когда закончишь."
 
         alice.say(text = title)
         alice.image(
