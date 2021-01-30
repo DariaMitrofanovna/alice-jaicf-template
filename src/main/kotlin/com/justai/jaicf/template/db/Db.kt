@@ -20,8 +20,8 @@ object FileDb : Db() {
 
     override fun write(userId: String, info: String) {
         if (File("$userId.txt").exists()) {
-            File(userId).appendText(info, Charsets.UTF_8)
-            File(userId).appendText("\n", Charsets.UTF_8)
+            File("$userId.txt").appendText(info, Charsets.UTF_8)
+            File("$userId.txt").appendText("\n", Charsets.UTF_8)
         } else {
             val file = File("$userId.txt");
             file.createNewFile();

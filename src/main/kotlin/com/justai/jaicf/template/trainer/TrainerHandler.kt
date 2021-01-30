@@ -11,7 +11,14 @@ class TrainerHandler {
             val userAppId = it.session.application.applicationId
             val userSession = UserSessionRepository.getOrCreate(userAppId)
 
-            FileDb.write(userAppId, ctx.toString())
+            FileDb.write(
+                userAppId,
+                buildString {
+                    append("type: ${ctx.request.type};")
+                    append("input: ${ctx.request.input};")
+                    appendln()
+                }
+            )
 
             userSession.handle(ctx)
         }
