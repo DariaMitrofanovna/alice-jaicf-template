@@ -3,13 +3,15 @@ package com.justai.jaicf.template.trainer
 import com.justai.jaicf.api.BotRequestType
 import com.justai.jaicf.context.ActionContext
 import com.justai.jaicf.template.trainer.states.InitialState
+import com.justai.jaicf.template.trainer.states.Running
 import com.justai.jaicf.template.trainer.states.State
 
 class UserSession(
     private val userAppId: String
 ) {
     private val initialState: State
-        get() = InitialState()
+//        get() = InitialState()
+        get() = Running() // fixme
 
     private var state: State = initialState
 

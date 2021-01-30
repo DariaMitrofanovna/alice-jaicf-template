@@ -6,7 +6,7 @@ import com.justai.jaicf.channel.yandexalice.AliceReactions
 class TrainingStart : State() {
 
     override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
-        alice.say("Побежали!", tts = "Побежааааааали!")
+        alice.say("Побежали!", tts = "Побежали!")
         alice.buttons("Стоп, давай упражнения")
 
         return Running()
