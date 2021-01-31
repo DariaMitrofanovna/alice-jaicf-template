@@ -11,9 +11,8 @@ import com.justai.jaicf.channel.yandexalice.api.alice
 import com.justai.jaicf.context.BotContext
 import com.justai.jaicf.context.DialogContext
 import com.justai.jaicf.context.manager.BotContextManager
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.*
 
 class AliceBotContextManager: BotContextManager {
 
@@ -49,9 +48,9 @@ class AliceBotContextManager: BotContextManager {
     override fun saveContext(botContext: BotContext, request: BotRequest?, response: BotResponse?) {
         (response as? AliceBotResponse)?.run {
             val model = BotContextModel(botContext)
-            val json = JSON(mapper.writeValueAsString(model)).jsonObject
+            val json = JSON.decodeFromString<JsonObject>(mapper.writeValueAsString(model))
             val session = mutableMapOf<String, JsonElement>().apply {
-                putAll(json.getObject("session").content)
+                putAll(json["session"]?.jsonObject ?: buildJsonObject { })
                 put("result", json["result"] ?: JsonNull)
                 put("dialogContext", json["dialogContext"] ?: JsonNull)
             }.let {
@@ -59,7 +58,7 @@ class AliceBotContextManager: BotContextManager {
             }
 
             userStateUpdate["com.justai.jaicf"] = json["client"]
-            sessionState = JsonObject(sessionState?.content?.plus(session) ?: session)
+            sessionState = JsonObject(sessionState?.plus(session) ?: session)
         }
     }
 }
