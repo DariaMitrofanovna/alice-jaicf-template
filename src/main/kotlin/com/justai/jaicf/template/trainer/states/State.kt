@@ -13,7 +13,7 @@ abstract class State {
     val intentUtil = IntentUtil()
     val userUtil = UserUtil()
 
-    fun handle(ctx: ActionContext): State {
+    fun handle(ctx: ActionContext<*, *, *>): State {
         val alice = ctx.reactions.alice!! // todo: doublecheck
         val request = ctx.request
 

@@ -8,7 +8,7 @@ import java.time.LocalTime
 
 class TrainerHandler {
 
-    fun handle(ctx: ActionContext) {
+    fun handle(ctx: ActionContext<*, *, *>) {
         (ctx.request as? AliceBotRequest)?.also {
             val userAppId = it.session.application.applicationId
             val userSession = UserSessionRepository.getOrCreate(userAppId)
