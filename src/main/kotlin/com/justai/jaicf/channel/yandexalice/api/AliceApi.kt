@@ -1,5 +1,6 @@
 package com.justai.jaicf.channel.yandexalice.api
 
+import com.justai.jaicf.channel.yandexalice.JSON
 import com.justai.jaicf.channel.yandexalice.api.storage.Image
 import com.justai.jaicf.channel.yandexalice.api.storage.Images
 import com.justai.jaicf.channel.yandexalice.api.storage.UploadedImage
@@ -10,7 +11,6 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
@@ -26,12 +26,11 @@ class AliceApi(
 
     private val images = mutableMapOf<String, String>()
 
-    //    private val client = HttpClient(CIO) {
     private val client = HttpClient() {
         expectSuccess = true
 
         install(JsonFeature) {
-            serializer = KotlinxSerializer(Json.Default)
+            serializer = KotlinxSerializer(JSON)
         }
 
         defaultRequest {

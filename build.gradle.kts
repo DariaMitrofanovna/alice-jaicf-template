@@ -29,7 +29,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:$slf4j")
     implementation("org.slf4j:slf4j-log4j12:$slf4j")
 
-    implementation("com.justai.jaicf:core:$jaicf")
+//    implementation("com.justai.jaicf:core:$jaicf")
 //    implementation("com.justai.jaicf:yandex-alice:$jaicf")
 //    implementation("com.justai.jaicf:mongo:$jaicf")
 
@@ -39,6 +39,11 @@ dependencies {
     api("io.ktor:ktor-client-apache:1.4.0")
     api("io.ktor:ktor-client-serialization-jvm:1.4.0")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
+
+    implementation("org.apache.tomcat:servlet-api:6.0.53")
+    implementation("io.ktor:ktor-server-core:1.4.0")
+    implementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.6.0")
 
 }
 

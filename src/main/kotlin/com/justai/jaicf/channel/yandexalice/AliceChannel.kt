@@ -21,7 +21,6 @@ class AliceChannel(
     private val contextManager = useDataStorage.takeIf { it }?.let { AliceBotContextManager() }
 
     override fun process(request: HttpBotRequest): HttpBotResponse? {
-//        val botRequest = JSON.parse(AliceBotRequest.serializer(), request.receiveText())
         val botRequest = JSON.decodeFromString(AliceBotRequest.serializer(), request.receiveText())
         val botResponse = AliceBotResponse(botRequest)
 
@@ -35,11 +34,11 @@ class AliceChannel(
                 request = botRequest,
                 reactions = reactions,
                 contextManager = contextManager,
-                requestContext = RequestContext(newSession = botRequest.session.newSession)
+                requestContext = RequestContext(newSession = botRequest.session.newSession, httpBotRequest = request)
+
             )
         }
 
-//        return JSON.stringify(AliceBotResponse.serializer(), botResponse).asJsonHttpBotResponse()
         return JSON.encodeToString(AliceBotResponse.serializer(), botResponse).asJsonHttpBotResponse()
     }
 
