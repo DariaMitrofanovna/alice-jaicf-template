@@ -27,5 +27,7 @@ hs_err_pid*
 /.idea/
 /.gradle/
 /build/
+/logs/
 
 /src/main/kotlin/com/justai/jaicf/template/MyWebhook.kt
+/src/main/kotlin/com/justai/jaicf/template/KissedLocalWebhookMain.kt

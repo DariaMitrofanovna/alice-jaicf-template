@@ -10,7 +10,7 @@ abstract class Db {
 object FileDb : Db() {
     override fun read(userId: String): String {
         val content: String
-        content = if (File("$userId.txt").exists()) {
+        content = if (File("logs/$userId.txt").exists()) {
             File(userId).readText(Charsets.UTF_8)
         } else {
             "no info"
