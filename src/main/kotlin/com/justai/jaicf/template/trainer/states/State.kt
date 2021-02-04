@@ -21,7 +21,6 @@ abstract class State {
     }
 
     open fun handleInternal(request: BotRequest, alice: AliceReactions): State {
-        alice.say("//TODO")
         return this
     }
 }

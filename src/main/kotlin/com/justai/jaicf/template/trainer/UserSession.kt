@@ -10,8 +10,7 @@ class UserSession(
     private val userAppId: String
 ) {
     private val initialState: State
-        get() = InitialState()
-//        get() = Running() // fixme
+        get() = initialStateProvider.invoke()
 
     private var state: State = initialState
 
@@ -22,5 +21,11 @@ class UserSession(
         }
 
         state = state.handle(ctx)
+    }
+
+    companion object {
+        var initialStateProvider: () -> State = {
+            InitialState()
+        }
     }
 }
