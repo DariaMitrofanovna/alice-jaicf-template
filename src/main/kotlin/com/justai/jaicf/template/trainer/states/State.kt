@@ -4,8 +4,6 @@ import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.alice
 import com.justai.jaicf.context.ActionContext
-import com.justai.jaicf.template.util.user.UserUtil
-
 
 abstract class State {
 

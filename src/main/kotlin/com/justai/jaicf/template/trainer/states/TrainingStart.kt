@@ -18,7 +18,7 @@ class TrainingStart : State() {
 
         return Running(trainingStartTime = startTime)
 
-        // todo: fallback
+        // todo: fallbacks
 
 //            GreetingFallback1().handleInternal(request, alice);
     }
