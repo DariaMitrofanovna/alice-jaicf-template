@@ -2,12 +2,13 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import com.justai.jaicf.template.util.intent.IntentType
+import com.justai.jaicf.template.util.intent.SimpleIntent
+import com.justai.jaicf.template.util.intent.hasSimpleIntent
 
 class CheckingLocation : State() {
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
-        return if (intentUtil.isIntentPresent(request, IntentType.READY) == true) {
+        return if (request.hasSimpleIntent(SimpleIntent.READY)) {
             alice.say("Вы на точке старта. Скажите \"Готов!\", и мы начнем тренировку!")
             TrainingStart()
         } else {

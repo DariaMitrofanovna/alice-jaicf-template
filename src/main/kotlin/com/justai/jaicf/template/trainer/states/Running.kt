@@ -7,15 +7,15 @@ import com.justai.jaicf.channel.yandexalice.api.model.ImageGallery
 import com.justai.jaicf.template.res.Images
 import com.justai.jaicf.template.trainer.Excercise
 import com.justai.jaicf.template.trainer.TrainingRepository
-import com.justai.jaicf.template.util.intent.IntentType
+import com.justai.jaicf.template.util.intent.SimpleIntent
+import com.justai.jaicf.template.util.intent.hasSimpleIntent
 
 class Running(val level: Int = 0, val prevExcercise: Excercise? = null) : State() {
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         // to end
         if (request.input.toLowerCase()
-                .contains(regex = Regex("хорош|устал|довольно"))
-            || intentUtil.isIntentPresent(request, IntentType.ENOUGH) == true
+                .contains(regex = Regex("хорош|устал|довольно")) || request.hasSimpleIntent(SimpleIntent.ENOUGH)
         ) {
             alice.image(
                 url = Images.sadEndUrl,
