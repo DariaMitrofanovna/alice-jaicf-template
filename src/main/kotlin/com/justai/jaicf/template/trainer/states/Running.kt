@@ -15,7 +15,7 @@ class Running(val level: Int = 0, val prevExcercise: Excercise? = null) : State(
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         // to end
         if (request.input.toLowerCase()
-                .contains(regex = Regex("хорош|устал|довольно")) || request.hasSimpleIntent(SimpleIntent.ENOUGH)
+                .contains(regex = Regex("хорош|устал|довольно|енот")) || request.hasSimpleIntent(SimpleIntent.ENOUGH)
         ) {
             alice.image(
                 url = Images.sadEndUrl,

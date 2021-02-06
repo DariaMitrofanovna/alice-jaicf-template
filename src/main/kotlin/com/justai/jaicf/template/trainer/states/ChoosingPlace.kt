@@ -11,11 +11,11 @@ class ChoosingPlace : State() {
         if (request.hasSimpleIntent(SimpleIntent.KREMLIN) || request.input == ("вокруг кремля")) {
             alice.say("Кремль - чуть пойзже. Пока что есть только парк. Скажите \"Готов\", и мы начнём тренировку!")
             alice.buttons("готов!")
-            return TrainingStart()
+            return GettingToStartPlace()
         } else if (request.hasSimpleIntent(SimpleIntent.MY_CHOICE) || request.input == ("в парке")) {
             alice.say("Скажите \"Готов\", и мы начнём тренировку!")
             alice.buttons("готов!")
-            return TrainingStart()
+            return GettingToStartPlace()
         } else alice.say("Не поняла Вас. Ответьте еще разок, пожалуйста")
         alice.buttons(
             "Вокруг Кремля", "Своё место"

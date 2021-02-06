@@ -9,9 +9,9 @@ class TrainingStart : State() {
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         return if (request.hasSimpleIntent(SimpleIntent.START) || request.input == "да" || request.input == "готов" || request.input == "начинаем") {
-            alice.say("Беги примерно минуту, потом скажи, что закончил. На старт, внимание, марш!")
-            alice.buttons("Стоп, давай упражнения")
-
+            alice.say("Беги примерно минуту ... (описание про бег), потом скажи Енот (кодовое слово). На старт, внимание, марш!")
+            alice.buttons("Енот")
+            // todo: start time
             Running()
         } else GreetingFallback1().handleInternal(request, alice);
     }
