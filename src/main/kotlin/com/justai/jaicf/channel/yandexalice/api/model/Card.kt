@@ -31,3 +31,20 @@ data class ItemsList(
     @Serializable
     data class Footer(val text: String, val button: Button? = null)
 }
+
+@Serializable
+@SerialName("ImageGallery")
+data class ImageGallery(
+    val header: Header? = null,
+    val footer: Footer? = null,
+    val items: MutableList<Image> = mutableListOf()
+): Card {
+
+    fun addImage(image: Image) = items.add(image).run { this@ImageGallery }
+
+    @Serializable
+    data class Header(val text: String? = null)
+
+    @Serializable
+    data class Footer(val text: String, val button: Button? = null)
+}
