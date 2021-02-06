@@ -3,6 +3,7 @@ package com.justai.jaicf.channel.yandexalice.api
 import com.justai.jaicf.api.BotResponse
 import com.justai.jaicf.channel.yandexalice.api.model.Button
 import com.justai.jaicf.channel.yandexalice.api.model.Card
+import com.justai.jaicf.channel.yandexalice.api.model.Directives
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
@@ -38,6 +39,7 @@ data class AliceBotResponse(
         @SerialName("end_session")
         var endSession: Boolean = false,
         var card: Card? = null,
-        val buttons: MutableList<Button> = mutableListOf()
+        val buttons: MutableList<Button> = mutableListOf(),
+        var directives: Directives? = null
     )
 }

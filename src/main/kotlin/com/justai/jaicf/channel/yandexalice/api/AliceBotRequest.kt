@@ -32,6 +32,8 @@ data class AliceBotRequest(
     }
 
     override val type = when {
+        request?.type == "Geolocation.Allowed" -> BotRequestType.GEO_ALLOWED
+        request?.type == "Geolocation.Rejected" -> BotRequestType.GEO_REJECTED
         request == null -> BotRequestType.EVENT
         request.command.isEmpty() -> BotRequestType.EVENT
         else -> BotRequestType.QUERY
@@ -64,7 +66,8 @@ data class Session(
     @SerialName("skill_id")
     val skillId: String,
     val application: Application,
-    val user: User? = null
+    val user: User? = null,
+    val location: Location? = null
 ) {
     // see: https://yandex.ru/dev/dialogs/alice/doc/protocol-docpage/
     // application.applicationId contains the same value `user_id` contained
@@ -75,6 +78,13 @@ data class Session(
     val userId: String
         get() = application.applicationId
 }
+
+@Serializable
+data class Location(
+    val lat: Double,
+    val lon: Double,
+    val accuracy: Double
+)
 
 @Serializable
 data class User(
@@ -98,13 +108,13 @@ data class State(
 
 @Serializable
 data class Request(
-    val command: String,
+    val command: String = "",
     @SerialName("original_utterance")
-    val originalUtterance: String,
+    val originalUtterance: String? = null,
     val type: String,
     val markup: JsonObject? = null,
     val payload: JsonObject? = null,
-    val nlu: Nlu
+    val nlu: Nlu? = null
 ) {
     @Serializable
     data class Nlu(

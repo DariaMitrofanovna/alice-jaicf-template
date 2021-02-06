@@ -3,6 +3,7 @@ package com.justai.jaicf.channel.yandexalice
 import com.justai.jaicf.channel.yandexalice.api.AliceApi
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.api.AliceBotResponse
+import com.justai.jaicf.channel.yandexalice.api.model.*
 import com.justai.jaicf.channel.yandexalice.api.model.Button
 import com.justai.jaicf.channel.yandexalice.api.model.Image
 import com.justai.jaicf.channel.yandexalice.api.model.ImageGallery
@@ -73,7 +74,6 @@ class AliceReactions(
     fun ImageGallery(header: String? = null, footer: ImageGallery.Footer? = null) =
         ImageGallery(ImageGallery.Header(header), footer).also { builder.card = it }
 
-
     override fun audio(id: String): AudioReaction {
         builder.tts += " <speaker audio='dialogs-upload/$skillId/$id.opus'>"
         return AudioReaction.create(id)
@@ -98,5 +98,10 @@ class AliceReactions(
 
     fun deleteFromUserState(key: String) {
         response.userStateUpdate[key] = null
+    }
+
+    fun geoPermissionRequest() {
+        builder.directives = builder.directives?.copy(requestGeolocation = EmptyObject())
+            ?: Directives(requestGeolocation = EmptyObject())
     }
 }

@@ -1,6 +1,6 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.api.BotRequest
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.alice
 import com.justai.jaicf.context.ActionContext
@@ -15,19 +15,19 @@ abstract class State {
 
     fun handle(ctx: ActionContext<*, *, *>): State {
         val alice = ctx.reactions.alice!! // todo: doublecheck
-        val request = ctx.request
+        val request = ctx.request as AliceBotRequest
 
         return handleInternal(request, alice)
     }
 
-    open fun handleInternal(request: BotRequest, alice: AliceReactions): State {
+    open fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         return this
     }
 }
 
 class InitialState1 : State() {
 
-    override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
+    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         alice.say(
             """
                 Привет! Я тренер Боб (друг Алисы). Предлагаю устроить такую тренировку: бег, силовое упражнение, снова бег - и снова упражнение. 
