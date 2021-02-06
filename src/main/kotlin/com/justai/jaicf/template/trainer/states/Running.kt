@@ -2,6 +2,8 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.api.BotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
+import com.justai.jaicf.channel.yandexalice.api.model.Image
+import com.justai.jaicf.channel.yandexalice.api.model.ImageGallery
 import com.justai.jaicf.template.res.Images
 import com.justai.jaicf.template.trainer.Excercise
 import com.justai.jaicf.template.trainer.TrainingRepository
@@ -25,12 +27,9 @@ class Running(val level: Int = 0, val prevExcercise: Excercise? = null) : State(
         // next excercise
         val nextExcercise = TrainingRepository.getRandomExcercise(prevExcercise?.type)
         val title = nextExcercise.genRandomTitle() + " Скажи когда закончишь."
-
         alice.say(text = title)
-        alice.image(
-            title = title,
-            url = nextExcercise.imageUrl
-        )
+        val imageGallery: ImageGallery = alice.ImageGallery()
+        nextExcercise.imageIds.forEach { a -> imageGallery.addImage(Image(a)) }
         alice.buttons(
             "Фух", "Всё!", "Закончил"
         )
