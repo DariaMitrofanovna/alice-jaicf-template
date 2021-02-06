@@ -9,5 +9,4 @@ class IntentUtil() {
         val aliceBotRequest: AliceBotRequest = request as AliceBotRequest
         return aliceBotRequest.request?.nlu?.intents?.contains(intentType.type)
     }
-
 }

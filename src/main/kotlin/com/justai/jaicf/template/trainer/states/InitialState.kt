@@ -2,6 +2,8 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
+import com.justai.jaicf.channel.yandexalice.api.model.Image
+import com.justai.jaicf.template.res.Images
 
 class InitialState : State() {
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
@@ -11,11 +13,7 @@ class InitialState : State() {
                 Если дадите доступ к геолокации, я посчитаю итоговую дистанцию.
             """.trimIndent()
         )
-        alice.buttons( // fixme: fake buttons instead of permission
-            "Разрешить на 1 час",
-            "Разрешить на 1 день",
-            "Не разрешать"
-        )
+        alice.geoPermissionRequest()
 
         return GettingGeoPermission()
     }
