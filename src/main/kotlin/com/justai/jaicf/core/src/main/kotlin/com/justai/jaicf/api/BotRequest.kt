@@ -19,7 +19,7 @@ interface BotRequest {
  * The type of request.
  */
 enum class BotRequestType {
-    QUERY, EVENT, INTENT
+    QUERY, EVENT, INTENT, GEO_ALLOWED, GEO_REJECTED
 }
 
 /**

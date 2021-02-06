@@ -1,12 +1,12 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.api.BotRequest
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.template.util.intent.IntentType
 
 class ChoosingPlace : State() {
 
-    override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
+    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         if (intentUtil.isIntentPresent(request, IntentType.KREMLIN) == true || request.input == ("вокруг кремля")) {
             alice.say("Кремль - чуть пойзже. Пока что есть только парк. Скажите \"Готов\", и мы начнём тренировку!")
             alice.buttons("готов!")

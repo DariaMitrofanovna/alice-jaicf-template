@@ -1,13 +1,13 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.api.BotRequest
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.template.trainer.Excercise
 import com.justai.jaicf.template.trainer.RandomPhrase
 
 class Training(private val level: Int, private val startTime: Long, val excercise: Excercise) : State() {
 
-    override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
+    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         val time = (System.currentTimeMillis() - startTime) / 1000
         alice.say(
             RandomPhrase(
