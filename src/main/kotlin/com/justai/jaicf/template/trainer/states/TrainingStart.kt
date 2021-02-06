@@ -2,17 +2,24 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import com.justai.jaicf.template.util.intent.SimpleIntent
-import com.justai.jaicf.template.util.intent.hasSimpleIntent
+import java.time.LocalTime
 
 class TrainingStart : State() {
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
-        return if (request.hasSimpleIntent(SimpleIntent.START) || request.input == "да" || request.input == "готов" || request.input == "начинаем") {
-            alice.say("Беги примерно минуту ... (описание про бег), потом скажи Енот (кодовое слово). На старт, внимание, марш!")
-            alice.buttons("Енот")
-            // todo: start time
-            Running()
-        } else GreetingFallback1().handleInternal(request, alice);
+        // todo: make intent training intesity
+
+        alice.say("Беги примерно минуту ... (описание про бег), потом скажи Енот (кодовое слово). На старт, внимание, марш!")
+        alice.buttons("Енот")
+        alice.endSession()
+
+        val startTime = LocalTime.now()
+        // todo: start time
+
+        return Running(trainingStartTime = startTime)
+
+        // todo: fallback
+
+//            GreetingFallback1().handleInternal(request, alice);
     }
 }
