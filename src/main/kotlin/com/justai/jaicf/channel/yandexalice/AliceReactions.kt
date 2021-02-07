@@ -71,7 +71,7 @@ class AliceReactions(
     fun itemsList(header: String? = null, footer: ItemsList.Footer? = null) =
         ItemsList(ItemsList.Header(header), footer).also { builder.card = it }
 
-    fun ImageGallery(header: String? = null, footer: ImageGallery.Footer? = null) =
+    fun imageGallery(header: String? = null, footer: ImageGallery.Footer? = null) =
         ImageGallery(ImageGallery.Header(header), footer).also { builder.card = it }
 
     override fun audio(id: String): AudioReaction {

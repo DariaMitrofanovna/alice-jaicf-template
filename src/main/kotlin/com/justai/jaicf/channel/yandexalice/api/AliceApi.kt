@@ -39,11 +39,11 @@ class AliceApi(
     }
 
     init {
-        images.putAll(
-            imageStorage.getOrPut(skillId) {
-                listImages().map { it.origUrl to it.id }.toMap().toMutableMap()
-            }
-        )
+//        images.putAll(
+//            imageStorage.getOrPut(skillId) {
+//                listImages().map { it.origUrl to it.id }.toMap().toMutableMap()
+//            }
+//        )
     }
 
     fun getImageId(url: String) = images.getOrPut(url) { uploadImage(url).id }

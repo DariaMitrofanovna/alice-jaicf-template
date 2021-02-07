@@ -41,7 +41,7 @@ class Running(
 
         alice.say(text = "C начала трени прошло ${currentDuration.seconds}. $title") // todo: saying duration normal
 
-        val imageGallery: ImageGallery = alice.ImageGallery()
+        val imageGallery: ImageGallery = alice.imageGallery()
         nextExcercise.imageIds.forEach { a -> imageGallery.addImage(Image(a)) }
 
         alice.say(
