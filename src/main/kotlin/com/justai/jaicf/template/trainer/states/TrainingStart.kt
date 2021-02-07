@@ -34,7 +34,6 @@ class TrainingStart(private val chosenDuration: Duration? = null) : State() {
             )
         }
 
-
         alice.buttons("Олег!")
         alice.endSession()
 

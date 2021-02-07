@@ -3,7 +3,8 @@ package com.justai.jaicf.template.trainer.states
 import com.justai.jaicf.api.BotRequestType
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import kotlin.random.Random
+import com.justai.jaicf.template.res.Links
+import io.ktor.util.*
 
 class GettingGeoPermission : State() {
 
@@ -36,17 +37,18 @@ class GettingGeoPermission : State() {
         if (geo && location != null) {
             alice.link(
                 title = "Маршрут до Кремля",
-                // fixme: add link
+                url = Links.kremlinPointMapsUrl
+                // fixme: add route link
 //                url = "https://yandex.ru"
 //                ${location.lat}%2C${location.lon}
-                url = "https://maps.yandex.ru/?rtext=53.9170029,27.584480199999998~55.8675,37.5928"
+//                url = "https://maps.yandex.ru/?rtext=53.9170029,27.584480199999998~55.8675,37.5928"
 //                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=${location.lat}%2C${location.lon}&mode=routes&rtext=58.522362%2C31.255854~58.522361%2C31.272050&rtt=pd&ruri=~&z=15.72"
 //                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=31.263119%2C58.523408&mode=routes&rtext=58.522362%2C31.255854~58.522361%2C31.272050&rtt=pd&ruri=~&z=15.72"
             )
         } else {
             alice.link(
                 title = "Кремль на Картах",
-                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=31.272076%2C58.521778&mode=whatshere&whatshere%5Bpoint%5D=31.272048%2C58.522362&whatshere%5Bzoom%5D=15.62&z=15.62"
+                url = Links.kremlinPointMapsUrl
             )
         }
 
