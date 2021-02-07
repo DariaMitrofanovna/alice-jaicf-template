@@ -43,12 +43,6 @@ enum class Excercise(
         quantity = 20 to 30,
     ),
 
-//    DROPS_BACK(
-//        title = "По 15 выпадов назад на каждую ногу",
-//        titleTemplates = listOf("Внимание, $TITLE_PH", "Делаем $TITLE_PH", "$TITLE_PH!"),
-//        bodyPart = BodyPart.LEGS,
-//    ),
-
     // arms
     PUSH_UPS(
         titleTemplate = "$QUANTITY_PH обычных отжиманий",
