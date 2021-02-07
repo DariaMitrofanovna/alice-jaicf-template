@@ -12,6 +12,7 @@ class TrainingStart(private val chosenDuration: Duration? = null) : State() {
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         // todo: make intent training intesity, save intencity
+        val hard = true
 
         if (kremlin) {
             val nextPoint = KremlinRoute.points[0]
@@ -40,7 +41,11 @@ class TrainingStart(private val chosenDuration: Duration? = null) : State() {
         val startTime = LocalTime.now()
         // todo: start time
 
-        return Running(trainingStartTime = startTime, chosenDuration = chosenDuration)
+        return Running(
+            trainingStartTime = startTime,
+            chosenDuration = chosenDuration,
+            hard = hard
+        )
 
         // todo: fallbacks
 
