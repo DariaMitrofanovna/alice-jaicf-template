@@ -2,15 +2,18 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.api.BotRequestType
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import com.justai.jaicf.template.res.Links
-import io.ktor.util.*
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
+import com.justai.jaicf.template.res.Links
 
 class GettingGeoPermission : State() {
 
 
     override val fallbackTexts: List<String> = listOf("", "", "")
-
+    override val fallbackButtons: List<List<String>> = listOf(
+            listOf(""),
+            listOf(""),
+            listOf("")
+    )
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
 
