@@ -18,10 +18,13 @@ class TrainingStart(private val chosenDuration: Duration? = null) : State() {
             "Извините, не понял Вас. Начнем с начала?)")
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
+        // todo: make intent training intesity, save intencity
+        val hard = true
         if (request.hasSimpleIntent(SimpleIntent.DIFFICULTY_HARD) || request.input == ("сложную")
                 || request.hasSimpleIntent(SimpleIntent.DIFFICULTY_LIGHT) || request.input == ("легкую")) {
 
             // todo: make intent training intesity, save intencity
+
 
             if (kremlin) {
                 val nextPoint = KremlinRoute.points[0]
@@ -43,9 +46,14 @@ class TrainingStart(private val chosenDuration: Duration? = null) : State() {
             }
 //            alice.endSession()
 
-            val startTime = LocalTime.now()
-            // todo: start time
-            return Running(trainingStartTime = startTime, chosenDuration = chosenDuration)
+        val startTime = LocalTime.now()
+        // todo: start time
+
+        return Running(
+            trainingStartTime = startTime,
+            chosenDuration = chosenDuration,
+            hard = hard
+        )
 
             // todo: fallbacks
         } else fallback(request, alice)
