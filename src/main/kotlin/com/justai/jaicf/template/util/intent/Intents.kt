@@ -2,6 +2,7 @@ package com.justai.jaicf.template.util.intent
 
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.api.Request
+import com.justai.jaicf.channel.yandexalice.model.AliceIntent
 
 enum class SimpleIntent(val id: String) {
     YES("yes"),
@@ -13,13 +14,25 @@ enum class SimpleIntent(val id: String) {
     BEGINIG("begining"),
 
     OLEG("oleg"),
+
+    CONTINUE("continue"),
+    NOT_CONTINUE("not_continue"),
+
     ENOUGH("enough"),
+
+    YANDEX_CONFIRM(AliceIntent.CONFIRM),
+    YANDEX_REJECT(AliceIntent.REJECT),
 }
 
 fun AliceBotRequest.intent(id: String): Request.Nlu.Intent? {
     return request?.nlu?.intents?.get(id)
 }
 
-fun AliceBotRequest.hasSimpleIntent(type: SimpleIntent): Boolean {
-    return intent(type.id) != null
+fun AliceBotRequest.hasSimpleIntent(vararg intents: SimpleIntent): Boolean {
+    intents.forEach {
+        if (intent(it.id) != null) {
+            return true
+        }
+    }
+    return false
 }
