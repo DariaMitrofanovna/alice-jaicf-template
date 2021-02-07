@@ -5,6 +5,8 @@ import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.template.trainer.excercises.Excercise
 import com.justai.jaicf.template.trainer.excercises.ExcerciseHistory
 import com.justai.jaicf.template.trainer.excercises.ExcerciseRepository
+import com.justai.jaicf.template.util.intent.SimpleIntent
+import com.justai.jaicf.template.util.intent.hasSimpleIntent
 import java.time.Duration
 import java.time.LocalTime
 
@@ -20,7 +22,10 @@ class Running(
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
 
         // todo: oleg intent here
-        return if (request.request?.command?.contains("олег", ignoreCase = true) == true) {
+        return if (request.hasSimpleIntent(SimpleIntent.OLEG)) {
+
+//        }
+//        return if (request.request?.command?.contains("олег", ignoreCase = true) == true) {
             oleg(request, alice)
         } else {
             fallback(request, alice)

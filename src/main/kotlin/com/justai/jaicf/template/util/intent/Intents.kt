@@ -12,7 +12,7 @@ enum class SimpleIntent(val id: String) {
     START("start"),
     BEGINIG("begining"),
 
-    OVERCOME("overcome"),
+    OLEG("oleg"),
     ENOUGH("enough"),
 }
 

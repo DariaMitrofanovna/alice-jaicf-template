@@ -25,6 +25,9 @@ abstract class State {
     val fallbackTexts: List<String> = listOf()
 
     protected fun fallback(request: AliceBotRequest, alice: AliceReactions): State {
+        alice.say("fallback")
+        alice.endSession()
+        return this
         when (fallbackDebth) {
             0 -> {
                 alice.say(fallbackTexts[0])
