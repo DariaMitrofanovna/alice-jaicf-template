@@ -31,7 +31,8 @@ abstract class State {
             0, 1 -> {
                 alice.say(fallbackTexts[fallbackDepth])
                 alice.buttons(*fallbackButtons[fallbackDepth].toTypedArray())
-
+                if (this is GettingGeoPermission)
+                    alice.geoPermissionRequest()
                 ++fallbackDepth
                 this
             }

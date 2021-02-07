@@ -4,15 +4,16 @@ import com.justai.jaicf.api.BotRequestType
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.template.res.Links
+import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
 
 class GettingGeoPermission : State() {
 
+    override val fallbackTexts: List<String> = listOf(
+            "${RandomPhrasesRepository.notUnderstand.random} Разрешаете ли Вы геолокацию?",
+            "Мне нужно знать, разрешаете ли Вы геолокацию. Нажмите, например, \"разрешаю\"")
 
-    override val fallbackTexts: List<String> = listOf("", "", "")
     override val fallbackButtons: List<List<String>> = listOf(
-            listOf(""),
-            listOf(""),
-            listOf("")
+            emptyList(), emptyList(), emptyList()
     )
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
@@ -25,14 +26,18 @@ class GettingGeoPermission : State() {
                 goodFlow(request, alice, false)
             }
             else -> {
+                if (request.input.equals("да")) {
+                    goodFlow(request, alice, true)
+                }
                 fallback(request, alice)
             }
         }
+
     }
 
     fun goodFlow(request: AliceBotRequest, alice: AliceReactions, geo: Boolean): State {
         alice.say(
-            """
+                """
                 Понадобится место, где вы будете бегать.
                 Можно выбрать готовую тренировку вокруг Кремля, или можете выбрать место сами (например, дорожку в парке или стадион).
                 Что выберете?
@@ -42,9 +47,9 @@ class GettingGeoPermission : State() {
         val location = request.session.location
         if (geo && location != null) {
             alice.link(
-                title = "Маршрут до места старта",
-                url = Links.kremlinPointMapsUrl
-                // fixme: add route link
+                    title = "Маршрут до места старта",
+                    url = Links.kremlinPointMapsUrl
+                    // fixme: add route link
 //                url = "https://yandex.ru"
 //                ${location.lat}%2C${location.lon}
 //                url = "https://maps.yandex.ru/?rtext=53.9170029,27.584480199999998~55.8675,37.5928"
@@ -53,13 +58,13 @@ class GettingGeoPermission : State() {
             )
         } else {
             alice.link(
-                title = "Место старта на Картах",
-                url = Links.kremlinPointMapsUrl
+                    title = "Место старта на Картах",
+                    url = Links.kremlinPointMapsUrl
             )
         }
 
         alice.buttons(
-            "Вокруг Кремля", "Своё место"
+                "Вокруг Кремля", "Своё место"
         )
 
         return ChoosingPlace()
