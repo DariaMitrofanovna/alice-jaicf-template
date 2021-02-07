@@ -2,7 +2,11 @@ package com.justai.jaicf.template.trainer.excercises
 
 object ExcerciseRepository {
 
+    var agon = 0 // fixme
+
     fun getNextRandomExcercise(history: ExcerciseHistory): Excercise {
+//        return Excercise.values()[agon++]
+
         val exceptBodyParts = mutableSetOf<BodyPart>()
         val historySize = history.excercises.size
         if (history.excercises.size > 0) {
