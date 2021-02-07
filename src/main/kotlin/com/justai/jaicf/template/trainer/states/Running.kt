@@ -42,18 +42,19 @@ class Running(
         }
 
         val nextExcercise = ExcerciseRepository.getNextRandomExcercise(excerciseHistory)
-        val excerciseTitle = nextExcercise.genRandomTitle()
+        val excerciseRandomTitle = nextExcercise.genRandomTitle()
 
         // todo: saying duration normal
         // todo: do we need this?
 //        alice.say(text = "C начала трени прошло ${currentDuration.seconds} секунд. $excerciseTitle")
 
         // todo: one image
-        alice.say(excerciseTitle)
-        alice.itemsList(header = excerciseTitle).also { items ->
+        alice.say(excerciseRandomTitle)
+        alice.image(nextExcercise.image)
+//        alice.itemsList(header = excerciseTitle).also { items ->
 //        alice.imageGallery(header = title).also { items ->
-            nextExcercise.images.forEach { items.addImage(it) }
-        }
+//            nextExcercise.images.forEach { items.addImage(it) }
+//        }
 
         alice.say(
             "музыка",
