@@ -20,7 +20,9 @@ abstract class State {
 
     protected var fallbackDebth = 0
 
-    abstract val fallbackTexts: List<String>
+    // fixme
+//    abstract val fallbackTexts: List<String>
+    val fallbackTexts: List<String> = listOf()
 
     protected fun fallback(request: AliceBotRequest, alice: AliceReactions): State {
         when (fallbackDebth) {
