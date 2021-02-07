@@ -42,10 +42,16 @@ class Running(
 
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
-        return if (request.hasSimpleIntent(SimpleIntent.OLEG, SimpleIntent.YANDEX_CONFIRM)) {
-            oleg(request, alice)
-        } else {
-            fallback(request, alice)
+        return when {
+            (request.hasSimpleIntent(SimpleIntent.OLEG, SimpleIntent.YANDEX_CONFIRM)) -> {
+                oleg(request, alice)
+            }
+            (request.hasSimpleIntent(SimpleIntent.ENOUGH)) -> {
+                Final().handleInternal(request, alice)
+            }
+            else -> {
+                fallback(request, alice)
+            }
         }
     }
 

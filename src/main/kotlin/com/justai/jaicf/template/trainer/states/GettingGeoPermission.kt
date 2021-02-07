@@ -26,10 +26,11 @@ class GettingGeoPermission : State() {
                 goodFlow(request, alice, false)
             }
             else -> {
-                if (request.input.equals("да")) {
+                if (request.input.equals("разрешить на 1 час")) {
                     goodFlow(request, alice, true)
+                } else {
+                    fallback(request, alice)
                 }
-                fallback(request, alice)
             }
         }
 
