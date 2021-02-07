@@ -1,7 +1,9 @@
 plugins {
     application
-    kotlin("jvm") version "1.3.61"
+    kotlin("jvm") version "1.4.10"
     id("com.github.johnrengelman.shadow") version "5.0.0"
+
+    kotlin("plugin.serialization") version "1.4.10"
 }
 
 group = "com.justai.jaicf"
@@ -27,11 +29,22 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:$slf4j")
     implementation("org.slf4j:slf4j-log4j12:$slf4j")
 
-    implementation("com.justai.jaicf:core:$jaicf")
-    implementation("com.justai.jaicf:yandex-alice:$jaicf")
+//    implementation("com.justai.jaicf:core:$jaicf")
+//    implementation("com.justai.jaicf:yandex-alice:$jaicf")
 //    implementation("com.justai.jaicf:mongo:$jaicf")
 
     implementation("io.ktor:ktor-server-netty:$ktor")
+
+    api("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.0")
+    api("io.ktor:ktor-client-apache:1.4.0")
+    api("io.ktor:ktor-client-serialization-jvm:1.4.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
+
+    implementation("org.apache.tomcat:servlet-api:6.0.53")
+    implementation("io.ktor:ktor-server-core:1.4.0")
+    implementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+
 }
 
 tasks {

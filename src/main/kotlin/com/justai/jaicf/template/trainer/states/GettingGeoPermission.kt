@@ -1,36 +1,70 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.api.BotRequest
+import com.justai.jaicf.api.BotRequestType
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import kotlin.random.Random
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
+import com.justai.jaicf.template.res.Links
+import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
 
 class GettingGeoPermission : State() {
 
+    override val fallbackTexts: List<String> = listOf(
+            "${RandomPhrasesRepository.notUnderstand.random} Разрешаете ли Вы геолокацию?",
+            "Мне нужно знать, разрешаете ли Вы геолокацию. Нажмите, например, \"разрешаю\"")
 
-    override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
+    override val fallbackButtons: List<List<String>> = listOf(
+            emptyList(), emptyList(), emptyList()
+    )
 
+    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
+
+        return when (request.type) {
+            BotRequestType.GEO_ALLOWED -> {
+                goodFlow(request, alice, true)
+            }
+            BotRequestType.GEO_REJECTED -> {
+                goodFlow(request, alice, false)
+            }
+            else -> {
+                if (request.input.equals("да")) {
+                    goodFlow(request, alice, true)
+                }
+                fallback(request, alice)
+            }
+        }
+
+    }
+
+    fun goodFlow(request: AliceBotRequest, alice: AliceReactions, geo: Boolean): State {
         alice.say(
-            """
+                """
                 Понадобится место, где вы будете бегать.
                 Можно выбрать готовую тренировку вокруг Кремля, или можете выбрать место сами (например, дорожку в парке или стадион).
                 Что выберете?
             """.trimIndent()
         )
 
-        if (false) { // todo: if geo enabled, return route, if not - return point
+        val location = request.session.location
+        if (geo && location != null) {
             alice.link(
-                title = "Маршрут до Кремля",
-                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=31.264094%2C58.523962&mode=routes&routes%5BactiveComparisonMode%5D=pedestrian&rtext=58.527206%2C31.257840~58.522093%2C31.272786&rtn=2&rtt=pd&ruri=~&z=16.09"
+                    title = "Маршрут до места старта",
+                    url = Links.kremlinPointMapsUrl
+                    // fixme: add route link
+//                url = "https://yandex.ru"
+//                ${location.lat}%2C${location.lon}
+//                url = "https://maps.yandex.ru/?rtext=53.9170029,27.584480199999998~55.8675,37.5928"
+//                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=${location.lat}%2C${location.lon}&mode=routes&rtext=58.522362%2C31.255854~58.522361%2C31.272050&rtt=pd&ruri=~&z=15.72"
+//                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=31.263119%2C58.523408&mode=routes&rtext=58.522362%2C31.255854~58.522361%2C31.272050&rtt=pd&ruri=~&z=15.72"
             )
         } else {
             alice.link(
-                title = "Кремль на Картах",
-                url = "https://yandex.ru/maps/-/CCUMMHTvdB"
+                    title = "Место старта на Картах",
+                    url = Links.kremlinPointMapsUrl
             )
         }
 
         alice.buttons(
-            "Вокруг Кремля", "Своё место"
+                "Вокруг Кремля", "Своё место"
         )
 
         return ChoosingPlace()

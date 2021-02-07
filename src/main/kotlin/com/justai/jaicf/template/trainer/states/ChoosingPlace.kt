@@ -1,37 +1,45 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.api.BotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import com.justai.jaicf.template.util.intent.IntentType
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
+import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
+import com.justai.jaicf.template.util.intent.SimpleIntent
+import com.justai.jaicf.template.util.intent.hasSimpleIntent
 
 class ChoosingPlace : State() {
+    override val fallbackTexts: List<String> = listOf(
+            "${RandomPhrasesRepository.notUnderstand.random} Где будете тренироваться?",
+            "Чтобы потренироваться, нужно выбрать где. Скажите Кремль или свое место.",
+    )
+    override val fallbackButtons: List<List<String>> = listOf(
+            listOf("Кремль", "свое место"),
+            listOf("Кремль", "свое место"),
+            listOf("Сначала")
+    )
 
-    override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
-        if (intentUtil.isIntentPresent(request, IntentType.KREMLIN) == true || request.input == ("вокруг кремля")) {
-            alice.say("Кремль - чуть пойзже. Пока что есть только парк. Скажите \"Готов\", и мы начнём тренировку!")
-            alice.buttons("готов!")
-            return TrainingStart()
-        } else if (intentUtil.isIntentPresent(request, IntentType.MY_CHOICE) == true || request.input == ("в парке")) {
-            alice.say("Скажите \"Готов\", и мы начнём тренировку!")
-            alice.buttons("готов!")
-            return TrainingStart()
-        } else alice.say("Не поняла Вас. Ответьте еще разок, пожалуйста")
-        alice.buttons(
-            "Вокруг Кремля", "Своё место"
+    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
+        return when {
+            request.hasSimpleIntent(SimpleIntent.KREMLIN) -> {
+                kremlin(request, alice)
+            }
+            (request.hasSimpleIntent(SimpleIntent.MY_CHOICE)) -> {
+                alice.say("Скажите, когда будете на месте")
+                alice.buttons("на месте!")
+                GettingToStartPlace(kremlin = false)
+            }
+            else -> fallback(request, alice)
+        }
+    }
+
+    private fun kremlin(request: AliceBotRequest, alice: AliceReactions): State {
+        alice.say(
+                """
+                Когда будете на точке старта, скажите "я на месте", и мы начнем тренировку.
+            """.trimIndent()
         )
-        return this
-//            if (userUtil.hasGeoLocation(request.clientId)) {
-//                alice.say("Когда будете на точке старта, скажите \"Готов!\", и мы начнем тренировку.")
-//                return TrainingStart()
-//            } else {
-//                if (userUtil.isBesideStart(request.clientId)) {
-//                    alice.say("Вы на точке старта. Скажите \"Готов!\", и мы начнем тренировку!")
-//                    return TrainingStart()
-//                } else {
-//                    alice.say("Вы далеко от точки старта. Сначала нужно до нее добраться! Можете воспользоваться маршрутом до нужной точки  или пойти своим путем. Скажите \"Готов!\", и мы начнем тренировку.")
-//                return CheckingLocation()
-//                }
-//            }
-
+        alice.buttons("Я на месте")
+        alice.endSession()
+        return GettingToStartPlace(kremlin = true)
     }
 }
+

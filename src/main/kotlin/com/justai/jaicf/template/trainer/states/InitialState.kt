@@ -1,21 +1,20 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.api.BotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 
 class InitialState : State() {
-    override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
+
+    override val fallbackTexts: List<String> = listOf("", "", "")
+
+    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         alice.say(
-            text = """
-                Привет! Я тренер Боб. Предлагаю устроить такую тренировку: бег, силовое упражнение, снова бег - и снова упражнение. Повторять будем столько, сколько захотите.
+            """
+                Привет! Я тренер Олег. Предлагаю устроить такую тренировку: бег, силовое упражнение, снова бег - и снова упражнение.
                 Если дадите доступ к геолокации, я посчитаю итоговую дистанцию.
             """.trimIndent()
         )
-        alice.buttons( // fixme: fake buttons instead of permission
-            "Разрешить на 1 час",
-            "Разрешить на 1 день",
-            "Не разрешать"
-        )
+        alice.geoPermissionRequest()
 
         return GettingGeoPermission()
     }

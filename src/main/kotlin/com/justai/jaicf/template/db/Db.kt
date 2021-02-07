@@ -8,10 +8,16 @@ abstract class Db {
 }
 
 object FileDb : Db() {
+
+    private fun file(userId: String): File {
+        return File("logs/$userId.txt")
+    }
+
     override fun read(userId: String): String {
         val content: String
-        content = if (File("$userId.txt").exists()) {
-            File(userId).readText(Charsets.UTF_8)
+        val file = file(userId)
+        content = if (file.exists()) {
+            file.readText(Charsets.UTF_8)
         } else {
             "no info"
         }
@@ -19,15 +25,13 @@ object FileDb : Db() {
     }
 
     override fun write(userId: String, info: String) {
-        if (File("$userId.txt").exists()) {
-            File("$userId.txt").appendText(info, Charsets.UTF_8)
-            File("$userId.txt").appendText("\n", Charsets.UTF_8)
+        val file = file(userId)
+        if (file.exists()) {
+            file.appendText(info, Charsets.UTF_8)
+            file.appendText("\n", Charsets.UTF_8)
         } else {
-            val file = File("$userId.txt");
             file.createNewFile();
             file.writeText(info, Charsets.UTF_8)
         }
     }
-
-
 }

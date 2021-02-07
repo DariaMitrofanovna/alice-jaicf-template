@@ -10,17 +10,22 @@ class UserSession(
     private val userAppId: String
 ) {
     private val initialState: State
-        get() = InitialState()
-//        get() = Running() // fixme
+        get() = initialStateProvider.invoke()
 
     private var state: State = initialState
 
-    fun handle(ctx: ActionContext) {
+    fun handle(ctx: ActionContext<*, *, *>) {
         // dialog cleared event
         if (ctx.request.type == BotRequestType.EVENT && ctx.request.input == "start") {
             state = initialState
         }
 
         state = state.handle(ctx)
+    }
+
+    companion object {
+        var initialStateProvider: () -> State = {
+            InitialState()
+        }
     }
 }

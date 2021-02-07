@@ -1,17 +1,68 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.api.BotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import com.justai.jaicf.template.util.intent.IntentType
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
+import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
+import com.justai.jaicf.template.trainer.excercises.KremlinRoute
+import com.justai.jaicf.template.util.intent.SimpleIntent
+import com.justai.jaicf.template.util.intent.hasSimpleIntent
+import java.time.Duration
+import java.time.LocalTime
 
-class TrainingStart : State() {
+class TrainingStart(private val chosenDuration: Duration? = null) : State() {
 
-    override fun handleInternal(request: BotRequest, alice: AliceReactions): State {
-        return if(intentUtil.isIntentPresent(request, IntentType.START) == true || request.input == "да" || request.input == "готов" || request.input == "начинаем") {
-            alice.say("Беги примерно минуту, потом скажи, что закончил. На старт, внимание, марш!")
-            alice.buttons("Стоп, давай упражнения")
+    private val kremlin: Boolean = chosenDuration == null
 
-            Running()
-        } else GreetingFallback1().handleInternal(request, alice);
+    override val fallbackTexts: List<String> = listOf(
+        "${RandomPhrasesRepository.notUnderstand.random} Хотите легкую или сложную тренировку?",
+        "Мне нужно знать, какая будет тренировка. Скажите, например: \"легкая\""
+    )
+
+    override val fallbackButtons: List<List<String>> = listOf(
+        listOf("Лёгкую", "Сложную"),
+        listOf("Лёгкая", "Сложная")
+    )
+
+    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
+        return when {
+            request.hasSimpleIntent(SimpleIntent.DIFFICULTY_HARD, SimpleIntent.DIFFICULTY_LIGHT) -> {
+                val hard = request.hasSimpleIntent(SimpleIntent.DIFFICULTY_HARD)
+                if (kremlin) {
+                    val nextPoint = KremlinRoute.points[0]
+                    alice.say(
+                        """
+                        Отлично! Я  приготовил для Вас классную тренировку вокруг Кремля.
+                        Сперва бегите насквозь через Кремль до ${nextPoint.runToName} и скажите "Олег", когда добежите.
+                        На старт, внимание, марш!
+                    """.trimIndent()
+                    )
+                    alice.buttons("Олег!")
+                    alice.endSession()
+                } else {
+                    alice.say(
+                        """
+                        Отлично! Начнем с небольшой пробежки. Бегите в своем темпе несколько минут.
+                        Я уже приготовил для Вас классные упражнения. Скажите "Олег", когда будете готовы перейти к ним после бега.      
+                    """.trimIndent()
+                    )
+                    alice.buttons("Олег!")
+                    alice.endSession()
+                }
+
+                val startTime = LocalTime.now()
+
+                Running(
+                    trainingStartTime = startTime,
+                    chosenDuration = chosenDuration,
+                    hard = hard
+                )
+            }
+
+            else -> {
+                fallback(request, alice)
+            }
+        }
     }
 }
+
+
