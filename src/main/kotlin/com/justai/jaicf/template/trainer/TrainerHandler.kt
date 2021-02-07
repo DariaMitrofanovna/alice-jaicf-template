@@ -21,6 +21,7 @@ class TrainerHandler {
                     append("type: ${ctx.request.type}; ")
                     append("input: ${ctx.request.input}; ")
                     append("intents: ${(ctx.request as? AliceBotRequest)?.request?.nlu?.intents?.entries?.joinToString { it.key + " - " + it.value.toString() }}; ")
+                    appendln()
                 }
             )
 
