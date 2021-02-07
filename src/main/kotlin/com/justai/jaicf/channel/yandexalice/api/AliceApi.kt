@@ -1,18 +1,11 @@
 package com.justai.jaicf.channel.yandexalice.api
 
 import com.justai.jaicf.channel.yandexalice.JSON
-import com.justai.jaicf.channel.yandexalice.api.storage.Image
-import com.justai.jaicf.channel.yandexalice.api.storage.Images
-import com.justai.jaicf.channel.yandexalice.api.storage.UploadedImage
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
-import io.ktor.http.*
-import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
 
 class AliceApi(
     oauthToken: String,
@@ -46,18 +39,18 @@ class AliceApi(
 //        )
     }
 
-    fun getImageId(url: String) = images.getOrPut(url) { uploadImage(url).id }
+//    fun getImageId(url: String) = images.getOrPut(url) { uploadImage(url).id }
 
-    fun uploadImage(url: String): Image = runBlocking {
-        client.post<UploadedImage>("$URL/skills/$skillId/images") {
-            contentType(ContentType.Application.Json)
-            body = JsonObject(mapOf("url" to JsonPrimitive(url)))
-        }.image
-    }.also { image ->
-        imageStorage[skillId]?.put(image.origUrl, image.id)
-    }
+//    fun uploadImage(url: String): Image = runBlocking {
+//        client.post<UploadedImage>("$URL/skills/$skillId/images") {
+//            contentType(ContentType.Application.Json)
+//            body = JsonObject(mapOf("url" to JsonPrimitive(url)))
+//        }.image
+//    }.also { image ->
+//        imageStorage[skillId]?.put(image.origUrl, image.id)
+//    }
 
-    fun listImages(): List<Image> = runBlocking {
-        client.get<Images>("$URL/skills/$skillId/images").images
-    }
+//    fun listImages(): List<Image> = runBlocking {
+//        client.get<Images>("$URL/skills/$skillId/images").images
+//    }
 }

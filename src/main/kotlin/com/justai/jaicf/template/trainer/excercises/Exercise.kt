@@ -1,11 +1,9 @@
 package com.justai.jaicf.template.trainer.excercises
 
-import com.justai.jaicf.channel.yandexalice.api.model.Image
-
 private const val TITLE_PH = "(TITLE)"
 private const val QUANTITY_PH = "(QUANTITY)"
 
-enum class Excercise(
+enum class Exercise(
     private val titleTemplate: String,
 //    private val titleTemplates: List<String>,
     val imageId: String = "1656841/bec994b6fc878b1a2746",

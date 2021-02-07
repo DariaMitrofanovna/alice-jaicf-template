@@ -35,8 +35,7 @@ class GettingToStartPlace(private val kremlin: Boolean) : State() {
                 if (request.hasSimpleIntent(SimpleIntent.ON_THE_SPOT) || request.input == ("на месте")) {
                     alice.say("Сколько по времени хотели бы тренить?")
                     alice.buttons(
-                        "30 минут", "15 минут",
-                        "AGON" // fixme
+                        "30 минут", "15 минут"
                     )
                     return GettingDuration()
                 } else fallback(request, alice)

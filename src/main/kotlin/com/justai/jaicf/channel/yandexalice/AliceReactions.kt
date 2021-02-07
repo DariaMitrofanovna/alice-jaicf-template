@@ -4,10 +4,6 @@ import com.justai.jaicf.channel.yandexalice.api.AliceApi
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.api.AliceBotResponse
 import com.justai.jaicf.channel.yandexalice.api.model.*
-import com.justai.jaicf.channel.yandexalice.api.model.Button
-import com.justai.jaicf.channel.yandexalice.api.model.Image
-import com.justai.jaicf.channel.yandexalice.api.model.ImageGallery
-import com.justai.jaicf.channel.yandexalice.api.model.ItemsList
 import com.justai.jaicf.logging.AudioReaction
 import com.justai.jaicf.logging.ButtonsReaction
 import com.justai.jaicf.logging.ImageReaction
@@ -51,22 +47,22 @@ class AliceReactions(
         builder.buttons.addAll(buttons)
         return ButtonsReaction.create(buttons.asList().map { it.title })
     }
-
-    override fun image(url: String): ImageReaction {
-        return image(Image(requireNotNull(api).getImageId(url)))
-    }
+//
+//    override fun image(url: String): ImageReaction {
+//        return image(Image(requireNotNull(api).getImageId(url)))
+//    }
 
     fun image(image: Image): ImageReaction {
         builder.card = image
         return ImageReaction.create(image.imageId)
     }
 
-    fun image(
-        url: String,
-        title: String? = null,
-        description: String? = null,
-        button: Button? = null
-    ) = image(Image(requireNotNull(api).getImageId(url), title, description, button))
+//    fun image(
+//        url: String,
+//        title: String? = null,
+//        description: String? = null,
+//        button: Button? = null
+//    ) = image(Image(requireNotNull(api).getImageId(url), title, description, button))
 
     fun itemsList(header: String? = null, footer: ItemsList.Footer? = null) =
         ItemsList(ItemsList.Header(header), footer).also { builder.card = it }

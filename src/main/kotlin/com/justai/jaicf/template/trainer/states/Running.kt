@@ -5,9 +5,9 @@ import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.api.model.Image
 import com.justai.jaicf.template.trainer.common_models.GeoPoint
 import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
-import com.justai.jaicf.template.trainer.excercises.Excercise
 import com.justai.jaicf.template.trainer.excercises.ExcerciseHistory
 import com.justai.jaicf.template.trainer.excercises.ExcerciseRepository
+import com.justai.jaicf.template.trainer.excercises.Exercise
 import com.justai.jaicf.template.trainer.excercises.KremlinRoute
 import com.justai.jaicf.template.util.intent.SimpleIntent
 import com.justai.jaicf.template.util.intent.hasSimpleIntent
@@ -31,7 +31,6 @@ class Running(
     override val fallbackTexts: List<String> = listOf(
             "${RandomPhrasesRepository.notUnderstand.random} Готовы к упражнениям?",
             "Если Вы закончили бегать, можем делать упражнения. Скажите \"Олег\"",
-            "${RandomPhrasesRepository.notUnderstand.random} Закончим или начнем с начала?"
     )
 
     override val fallbackButtons: List<List<String>> = listOf(
@@ -165,11 +164,11 @@ class Running(
         }
     }
 
-    fun continueRunning(nextExcercise: Excercise, path: List<GeoPoint?>): Running {
+    fun continueRunning(nextExercise: Exercise, path: List<GeoPoint?>): Running {
         return Running(
                 level = level + 1,
                 trainingStartTime = trainingStartTime,
-                excerciseHistory = excerciseHistory + nextExcercise,
+                excerciseHistory = excerciseHistory + nextExercise,
                 chosenDuration = chosenDuration,
                 overTime = true,
                 hard = hard,
