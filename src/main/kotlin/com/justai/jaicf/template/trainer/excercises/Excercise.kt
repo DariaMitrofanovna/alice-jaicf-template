@@ -22,11 +22,11 @@ enum class Excercise(
         quantity = 10 to 20,
     ),
     DROPS_FRONT(
-        titleTemplate = "По $QUANTITY_PH выпадов вперёд на каждую ногу",
+        titleTemplate = "$QUANTITY_PH выпадов вперёд суммарно на обе ноги",
         titleTemplates = listOf("Давайте теперь $TITLE_PH", "Делаем $TITLE_PH"),
         bodyPart = BodyPart.LEGS,
         countable = true,
-        quantity = 10 to 15,
+        quantity = 20 to 30,
     ),
     CHAIR(
         titleTemplate = "Стульчик $QUANTITY_PH секунд",
@@ -40,7 +40,7 @@ enum class Excercise(
         titleTemplates = listOf("Внимание, $TITLE_PH", "Делаем $TITLE_PH", "$TITLE_PH!"),
         bodyPart = BodyPart.LEGS,
         countable = true,
-        quantity = 20 to 40,
+        quantity = 20 to 30,
     ),
 
 //    DROPS_BACK(
