@@ -8,19 +8,20 @@ import com.justai.jaicf.template.util.intent.hasSimpleIntent
 class ChoosingPlace : State() {
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
-        if (request.hasSimpleIntent(SimpleIntent.KREMLIN) || request.input == ("вокруг кремля")) {
-            alice.say("Кремль - чуть пойзже. Пока что есть только парк. Скажите \"Готов\", и мы начнём тренировку!")
-            alice.buttons("готов!")
-            return GettingToStartPlace()
+        return if (request.hasSimpleIntent(SimpleIntent.KREMLIN) || request.input == ("вокруг кремля")) {
+            kremlin(request, alice)
         } else if (request.hasSimpleIntent(SimpleIntent.MY_CHOICE) || request.input == ("в парке")) {
             alice.say("Скажите \"Готов\", и мы начнём тренировку!")
             alice.buttons("готов!")
-            return GettingToStartPlace()
-        } else alice.say("Не поняла Вас. Ответьте еще разок, пожалуйста")
-        alice.buttons(
-            "Вокруг Кремля", "Своё место"
-        )
-        return this
+            GettingToStartPlace(kremlin = false)
+        } else {
+            // todo: fallback
+            alice.say("Не поняла Вас. Ответьте еще разок, пожалуйста")
+            alice.buttons(
+                "Вокруг Кремля", "Своё место"
+            )
+            this
+        }
 //            if (userUtil.hasGeoLocation(request.clientId)) {
 //                alice.say("Когда будете на точке старта, скажите \"Готов!\", и мы начнем тренировку.")
 //                return TrainingStart()
@@ -33,6 +34,15 @@ class ChoosingPlace : State() {
 //                return CheckingLocation()
 //                }
 //            }
+    }
 
+    private fun kremlin(request: AliceBotRequest, alice: AliceReactions): State {
+        alice.say(
+            """
+                Когда будете на точке старта, скажите "я на месте", и мы начнем тренировку.
+            """.trimIndent()
+        )
+        alice.buttons("Я на месте")
+        return GettingToStartPlace(kremlin = true)
     }
 }

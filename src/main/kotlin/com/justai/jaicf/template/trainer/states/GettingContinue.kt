@@ -38,7 +38,7 @@ class GettingContinue(private val prevRunning: Running) : State() {
                 prevRunning.continueRunning(nextExcercise)
             }
 
-            request.hasSimpleIntent(SimpleIntent.NOT_CONTINUE, SimpleIntent.YANDEX_REJECT) -> {
+            request.hasSimpleIntent(SimpleIntent.ENOUGH, SimpleIntent.YANDEX_REJECT) -> {
                 alice.say(
                     """
                         Закончили, сразу не падай на землю, походи, восстанови дыхание.

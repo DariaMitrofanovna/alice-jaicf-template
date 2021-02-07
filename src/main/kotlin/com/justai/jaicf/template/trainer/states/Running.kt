@@ -5,6 +5,7 @@ import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.template.trainer.excercises.Excercise
 import com.justai.jaicf.template.trainer.excercises.ExcerciseHistory
 import com.justai.jaicf.template.trainer.excercises.ExcerciseRepository
+import com.justai.jaicf.template.trainer.excercises.KremlinRoute
 import com.justai.jaicf.template.util.intent.SimpleIntent
 import com.justai.jaicf.template.util.intent.hasSimpleIntent
 import java.time.Duration
@@ -14,19 +15,16 @@ class Running(
     private val level: Int = 0,
     val excerciseHistory: ExcerciseHistory = ExcerciseHistory.empty(),
     private val trainingStartTime: LocalTime,
-    private val chosenDuration: Duration,
+    private val chosenDuration: Duration?,
     private val overTime: Boolean = false
 ) : State() {
 
-    private val MINIMUM_DURATION = Duration.ofMinutes(5)
+    private val MINIMUM_DURATION = Duration.ofMinutes(3)
+
+    private val kremlin: Boolean = chosenDuration == null
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
-
-        // todo: oleg intent here
         return if (request.hasSimpleIntent(SimpleIntent.OLEG)) {
-
-//        }
-//        return if (request.request?.command?.contains("олег", ignoreCase = true) == true) {
             oleg(request, alice)
         } else {
             fallback(request, alice)
@@ -35,7 +33,13 @@ class Running(
 
     fun oleg(request: AliceBotRequest, alice: AliceReactions): State {
         val currentDuration = Duration.between(trainingStartTime, LocalTime.now())
-        val final = currentDuration - chosenDuration < MINIMUM_DURATION && !overTime
+
+        val final = if (kremlin) {
+            level == KremlinRoute.finalLevel
+        } else {
+            currentDuration - chosenDuration < MINIMUM_DURATION && !overTime
+        }
+
         println("agon: chosen: $chosenDuration, current: $currentDuration, final: $final")
 
         val nextExcercise = ExcerciseRepository.getNextRandomExcercise(excerciseHistory)
@@ -67,20 +71,43 @@ class Running(
         )
 
         if (final) {
-            alice.say(
-                """
+            return if (kremlin) {
+                // todo: todo final suggests
+                alice.say(
+                    """
+                     Ура! Закончили
+                    """.trimIndent()
+                )
+                alice.endSession()
+                HappyEnd()
+            } else {
+                alice.say(
+                    """
                      Время, которое Вы хотели потренироваться, закончилось.
                      Можем завершить тренировку или еще позаниматься. Продолжаем?
                 """.trimIndent()
-            )
-            alice.buttons("Продолжаем!", "Нет, закончить") // todo: texts
-            return GettingContinue(this)
+                )
+                alice.buttons("Продолжаем!", "Нет, закончить") // todo: texts
+                GettingContinue(this)
+            }
         } else {
-            alice.say(
-                """
-                    Отлично! Продолжаем бег. Я жду от Вас команду "Олег" для перехода к упражнениям
-                """.trimIndent()
-            )
+            if (kremlin) {
+                val nextPoint = KremlinRoute.points[level + 1]
+                alice.link("Сделующая точка - ${nextPoint.runToName}", "https://ya.ru")
+                alice.say(
+                    """
+                        Отлично! Продолжаем бег. Теперь бегите до ${nextPoint.runToName}. 
+                        Скажите "Олег", когда будете там!
+                    """.trimIndent()
+                )
+            } else {
+                alice.say(
+                    """
+                        Отлично! Продолжаем бег. Я жду от Вас команду "Олег" для перехода к упражнениям
+                    """.trimIndent()
+                )
+            }
+
             alice.buttons(
                 "Олег!"
             )
