@@ -14,11 +14,35 @@ enum class Excercise(
     ),
     val bodyPart: BodyPart
 ) {
+    // legs
     SQUATS(
         title = "30 приседаний",
         titleTemplates = listOf("Делайте $TITLE_PH", "С вас $TITLE_PH", "$TITLE_PH, поехали!"),
         bodyPart = BodyPart.LEGS,
     ),
+    DROPS_FRONT(
+        title = "По 15 выпадов вперёд на каждую ногу",
+        titleTemplates = listOf("Давайте теперь $TITLE_PH", "Делаем $TITLE_PH"),
+        bodyPart = BodyPart.LEGS,
+    ),
+    CHAIR(
+        title = "Стульчик 30 минут",
+        titleTemplates = listOf("Внимание, $TITLE_PH", "Делаем $TITLE_PH", "$TITLE_PH!"),
+        bodyPart = BodyPart.LEGS,
+    ),
+    GOOSE(
+        title = "Стульчик 30 минут",
+        titleTemplates = listOf("Внимание, $TITLE_PH", "Делаем $TITLE_PH", "$TITLE_PH!"),
+        bodyPart = BodyPart.LEGS,
+    ),
+
+//    DROPS_BACK(
+//        title = "По 15 выпадов назад на каждую ногу",
+//        titleTemplates = listOf("Внимание, $TITLE_PH", "Делаем $TITLE_PH", "$TITLE_PH!"),
+//        bodyPart = BodyPart.LEGS,
+//    ),
+
+    // arms
     PUSH_UPS(
         title = "20 обычных отжиманий",
         titleTemplates = listOf("Теперь делайте $TITLE_PH", "Делаем $TITLE_PH", "$TITLE_PH!"),
@@ -34,16 +58,8 @@ enum class Excercise(
         titleTemplates = listOf("Теперь делайте $TITLE_PH", "Делаем $TITLE_PH", "$TITLE_PH!"),
         bodyPart = BodyPart.ARMS,
     ),
-    DROPS_FRONT(
-        title = "По 15 выпадов вперёд на каждую ногу",
-        titleTemplates = listOf("Давайте теперь $TITLE_PH", "Делаем $TITLE_PH"),
-        bodyPart = BodyPart.LEGS,
-    ),
-    DROPS_BACK(
-        title = "По 15 выпадов назад на каждую ногу",
-        titleTemplates = listOf("Внимание, $TITLE_PH", "Делаем $TITLE_PH", "$TITLE_PH!"),
-        bodyPart = BodyPart.LEGS,
-    ),
+
+    // body
     BURPY(
         title = "10 бёрпи",
         titleTemplates = listOf(
