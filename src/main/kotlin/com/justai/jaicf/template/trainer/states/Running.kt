@@ -3,6 +3,7 @@ package com.justai.jaicf.template.trainer.states
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.api.model.Image
+import com.justai.jaicf.template.res.Audios
 import com.justai.jaicf.template.trainer.common_models.GeoPoint
 import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
 import com.justai.jaicf.template.trainer.excercises.ExcerciseHistory
@@ -105,7 +106,7 @@ class Running(
         )
         alice.say(
                 "музыка",
-                tts = "<speaker audio=\"dialogs-upload/a80c89a2-d508-4008-9a33-6a8dc12e2895/f04431f0-a902-473d-8346-19a84fb0c3db.opus\">"
+                tts = nextExcercise.music(hard)
         )
 
         if (final) {
