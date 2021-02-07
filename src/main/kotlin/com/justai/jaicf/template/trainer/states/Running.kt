@@ -7,6 +7,7 @@ import com.justai.jaicf.channel.yandexalice.api.model.ImageGallery
 import com.justai.jaicf.template.trainer.excercises.Excercise
 import com.justai.jaicf.template.trainer.excercises.ExcerciseHistory
 import com.justai.jaicf.template.trainer.excercises.ExcerciseRepository
+import com.justai.jaicf.template.util.intent.hasSimpleIntent
 import java.time.Duration
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
@@ -21,6 +22,17 @@ class Running(
 
     @ExperimentalTime
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
+
+        if (request.hasSimpleIntent()) {
+
+        } else {
+
+
+        } else {
+            return fallback()
+        }
+
+
         // todo: to end
 //        if (request.input.toLowerCase()
 //                .contains(regex = Regex("хорош|устал|довольно")) || request.hasSimpleIntent(SimpleIntent.ENOUGH)

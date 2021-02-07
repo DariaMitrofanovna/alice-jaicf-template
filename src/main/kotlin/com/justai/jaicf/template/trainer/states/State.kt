@@ -17,6 +17,30 @@ abstract class State {
     open fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         return this
     }
+
+    protected var fallbackDebth = 0
+
+    abstract val fallbackTexts: List<String>
+
+    protected fun fallback(request: AliceBotRequest, alice: AliceReactions): State {
+        when (fallbackDebth) {
+            0 -> {
+                alice.say(fallbackTexts[0])
+            }
+
+            1 -> {
+                alice.say(fallbackTexts[1])
+            }
+
+            2 -> {
+                alice.say("иди в жопу")
+
+            }
+        }
+
+        fallbackDebth++
+        return this
+    }
 }
 
 class InitialState1 : State() {
