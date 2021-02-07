@@ -1,31 +1,55 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.api.BotRequestType
-import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
-import kotlin.random.Random
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 
 class GettingGeoPermission : State() {
 
+
+    override val fallbackTexts: List<String> = listOf("","","")
+
+
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
 
-        return when (request.type) {
-            BotRequestType.GEO_ALLOWED -> {
-                goodFlow(request, alice, true)
-            }
-            BotRequestType.GEO_REJECTED -> {
-                goodFlow(request, alice, false)
+        return when (request.input) {
+            "ok" -> {
+                alice.say(
+                        """
+                Понадобится место, где вы будете бегать.
+                Можно выбрать готовую тренировку вокруг Кремля, или можете выбрать место сами (например, дорожку в парке или стадион).
+                Что выберете?
+            """.trimIndent()
+
+                )
+                alice.buttons(
+                        "Вокруг Кремля", "Своё место"
+                )
+                return ChoosingPlace()
             }
             else -> {
-                alice.say("TODO: geo fallback")
-                this
+                fallback(request, alice)
             }
         }
     }
 
+//    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
+//
+//        return when (request.type) {
+//            BotRequestType.GEO_ALLOWED -> {
+//                goodFlow(request, alice, true)
+//            }
+//            BotRequestType.GEO_REJECTED -> {
+//                goodFlow(request, alice, false)
+//            }
+//            else -> {
+//                fallback(request, alice)
+//            }
+//        }
+//    }
+
     fun goodFlow(request: AliceBotRequest, alice: AliceReactions, geo: Boolean): State {
         alice.say(
-            """
+                """
                 Понадобится место, где вы будете бегать.
                 Можно выбрать готовую тренировку вокруг Кремля, или можете выбрать место сами (например, дорожку в парке или стадион).
                 Что выберете?
@@ -35,23 +59,23 @@ class GettingGeoPermission : State() {
         val location = request.session.location
         if (geo && location != null) {
             alice.link(
-                title = "Маршрут до Кремля",
-                // fixme: add link
+                    title = "Маршрут до Кремля",
+                    // fixme: add link
 //                url = "https://yandex.ru"
 //                ${location.lat}%2C${location.lon}
-                url = "https://maps.yandex.ru/?rtext=53.9170029,27.584480199999998~55.8675,37.5928"
+                    url = "https://maps.yandex.ru/?rtext=53.9170029,27.584480199999998~55.8675,37.5928"
 //                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=${location.lat}%2C${location.lon}&mode=routes&rtext=58.522362%2C31.255854~58.522361%2C31.272050&rtt=pd&ruri=~&z=15.72"
 //                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=31.263119%2C58.523408&mode=routes&rtext=58.522362%2C31.255854~58.522361%2C31.272050&rtt=pd&ruri=~&z=15.72"
             )
         } else {
             alice.link(
-                title = "Кремль на Картах",
-                url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=31.272076%2C58.521778&mode=whatshere&whatshere%5Bpoint%5D=31.272048%2C58.522362&whatshere%5Bzoom%5D=15.62&z=15.62"
+                    title = "Кремль на Картах",
+                    url = "https://yandex.ru/maps/24/veliky-novgorod/?ll=31.272076%2C58.521778&mode=whatshere&whatshere%5Bpoint%5D=31.272048%2C58.522362&whatshere%5Bzoom%5D=15.62&z=15.62"
             )
         }
 
         alice.buttons(
-            "Вокруг Кремля", "Своё место"
+                "Вокруг Кремля", "Своё место"
         )
 
         return ChoosingPlace()

@@ -1,7 +1,7 @@
 package com.justai.jaicf.template.trainer.states
 
-import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.AliceReactions
+import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.template.trainer.excercises.Excercise
 import com.justai.jaicf.template.trainer.excercises.ExcerciseHistory
 import com.justai.jaicf.template.trainer.excercises.ExcerciseRepository
@@ -22,6 +22,8 @@ class Running(
     private val MINIMUM_DURATION = Duration.ofMinutes(3)
 
     private val kremlin: Boolean = chosenDuration == null
+
+    override val fallbackTexts: List<String> = listOf("", "", "")
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         return if (request.hasSimpleIntent(SimpleIntent.OLEG)) {

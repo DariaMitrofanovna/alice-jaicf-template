@@ -12,16 +12,15 @@ enum class SimpleIntent(val id: String) {
     READY("ready"),
     START("start"),
     BEGINIG("begining"),
-
     OLEG("oleg"),
-
     CONTINUE("continue"),
     NOT_CONTINUE("not_continue"),
-
     ENOUGH("enough"),
-
     YANDEX_CONFIRM(AliceIntent.CONFIRM),
     YANDEX_REJECT(AliceIntent.REJECT),
+    ON_THE_SPOT("onTheSpot"),
+    DIFFICULTY_HARD("difficultyHard"),
+    DIFFICULTY_LIGHT("difficultyLight")
 }
 
 fun AliceBotRequest.intent(id: String): Request.Nlu.Intent? {
