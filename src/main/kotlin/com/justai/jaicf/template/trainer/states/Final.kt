@@ -11,9 +11,8 @@ class Final : State() {
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         alice.image(
-                Image(Images.happyEnd),
+            Image(Images.happyEnd, "Закончили, сразу не падай на землю, походи, восстанови дыхание. Молодец!"),
         )
-        alice.say("Закончили, сразу не падай на землю, походи, восстанови дыхание. Молодец!")
         alice.endSession()
         return this
     }
