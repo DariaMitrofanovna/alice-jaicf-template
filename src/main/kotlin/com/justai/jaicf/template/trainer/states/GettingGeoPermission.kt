@@ -1,5 +1,6 @@
 package com.justai.jaicf.template.trainer.states
 
+import com.justai.jaicf.api.BotRequestType
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.template.res.Links
 import io.ktor.util.*
@@ -8,25 +9,17 @@ import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 class GettingGeoPermission : State() {
 
 
-    override val fallbackTexts: List<String> = listOf("","","")
+    override val fallbackTexts: List<String> = listOf("", "", "")
 
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
 
-        return when (request.input) {
-            "ok" -> {
-                alice.say(
-                        """
-                Понадобится место, где вы будете бегать.
-                Можно выбрать готовую тренировку вокруг Кремля, или можете выбрать место сами (например, дорожку в парке или стадион).
-                Что выберете?
-            """.trimIndent()
-
-                )
-                alice.buttons(
-                        "Вокруг Кремля", "Своё место"
-                )
-                return ChoosingPlace()
+        return when (request.type) {
+            BotRequestType.GEO_ALLOWED -> {
+                goodFlow(request, alice, true)
+            }
+            BotRequestType.GEO_REJECTED -> {
+                goodFlow(request, alice, false)
             }
             else -> {
                 fallback(request, alice)
@@ -34,24 +27,9 @@ class GettingGeoPermission : State() {
         }
     }
 
-//    override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
-//
-//        return when (request.type) {
-//            BotRequestType.GEO_ALLOWED -> {
-//                goodFlow(request, alice, true)
-//            }
-//            BotRequestType.GEO_REJECTED -> {
-//                goodFlow(request, alice, false)
-//            }
-//            else -> {
-//                fallback(request, alice)
-//            }
-//        }
-//    }
-
     fun goodFlow(request: AliceBotRequest, alice: AliceReactions, geo: Boolean): State {
         alice.say(
-                """
+            """
                 Понадобится место, где вы будете бегать.
                 Можно выбрать готовую тренировку вокруг Кремля, или можете выбрать место сами (например, дорожку в парке или стадион).
                 Что выберете?
@@ -78,7 +56,7 @@ class GettingGeoPermission : State() {
         }
 
         alice.buttons(
-                "Вокруг Кремля", "Своё место"
+            "Вокруг Кремля", "Своё место"
         )
 
         return ChoosingPlace()

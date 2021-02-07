@@ -7,9 +7,10 @@ import com.justai.jaicf.template.util.intent.hasSimpleIntent
 
 class ChoosingPlace : State() {
     override val fallbackTexts: List<String> = listOf(
-            "Не до конца Вас поняла. где будете тренироваться?",
-            "Чтобы потренироваться, нужно выбрать где. Скажите Кремль или свое место.",
-            "Извините, не поняла Вас. Начнем с начала?")
+        "Не до конца Вас поняла. где будете тренироваться?",
+        "Чтобы потренироваться, нужно выбрать где. Скажите Кремль или свое место.",
+        "Извините, не поняла Вас. Начнем с начала?"
+    )
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         return if (request.hasSimpleIntent(SimpleIntent.KREMLIN) || request.input == ("вокруг кремля")) {
@@ -43,11 +44,12 @@ class ChoosingPlace : State() {
 
     private fun kremlin(request: AliceBotRequest, alice: AliceReactions): State {
         alice.say(
-                """
+            """
                 Когда будете на точке старта, скажите "я на месте", и мы начнем тренировку.
             """.trimIndent()
         )
         alice.buttons("Я на месте")
+        alice.endSession()
         return GettingToStartPlace(kremlin = true)
     }
 }

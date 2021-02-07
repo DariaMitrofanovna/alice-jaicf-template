@@ -14,8 +14,7 @@ class InitialState : State() {
                 Если дадите доступ к геолокации, я посчитаю итоговую дистанцию.
             """.trimIndent()
         )
-//        alice.geoPermissionRequest()
-        alice.buttons("ok")
+        alice.geoPermissionRequest()
 
         return GettingGeoPermission()
     }

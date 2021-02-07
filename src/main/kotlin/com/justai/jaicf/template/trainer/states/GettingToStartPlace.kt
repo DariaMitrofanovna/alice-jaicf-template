@@ -16,8 +16,8 @@ class GettingToStartPlace(private val kremlin: Boolean) : State() {
 
         return if (kremlin) {
             // todo: check geo
-            alice.say("Вам полегче или посложнее?")
-            alice.buttons("Полегче", "Посложнее")
+            alice.say("Хотите лёгкую или сложную тренировку?")
+            alice.buttons("Лёгкую", "Сложную")
             TrainingStart(chosenDuration = null)
         } else {
             if (request.hasSimpleIntent(SimpleIntent.ON_THE_SPOT) || request.input == ("на месте")) {

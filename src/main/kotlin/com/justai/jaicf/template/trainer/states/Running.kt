@@ -12,6 +12,7 @@ import java.time.Duration
 import java.time.LocalTime
 import com.justai.jaicf.channel.yandexalice.api.model.Image
 import com.justai.jaicf.template.trainer.common_models.GeoPoint
+import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
 
 class Running(
     private val level: Int = 0,
@@ -27,10 +28,21 @@ class Running(
 
     private val kremlin: Boolean = chosenDuration == null
 
-    override val fallbackTexts: List<String> = listOf("", "", "")
+    override val fallbackTexts: List<String> = listOf(
+        "${RandomPhrasesRepository.notUnderstand.random} Готовы к упражнениям?",
+        "Если Вы закончили бегать, можем делать упражнения. Скажите \"Олег\"",
+        "${RandomPhrasesRepository.notUnderstand.random} Закончим или начнем с начала?"
+    )
+
+    override val fallbackButtons: List<List<String>> = listOf(
+        listOf("Да"),
+        listOf("Олег!"),
+        listOf("Сначала")
+    )
+
 
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
-        return if (request.hasSimpleIntent(SimpleIntent.OLEG)) {
+        return if (request.hasSimpleIntent(SimpleIntent.OLEG, SimpleIntent.YANDEX_CONFIRM)) {
             oleg(request, alice)
         } else {
             fallback(request, alice)

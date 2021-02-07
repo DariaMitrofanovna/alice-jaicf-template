@@ -11,7 +11,7 @@ enum class SimpleIntent(val id: String) {
     MY_CHOICE("myChoice"),
     READY("ready"),
     START("start"),
-    BEGINIG("begining"),
+    BEGINNIG("beginning"),
     OLEG("oleg"),
     CONTINUE("continue"),
     NOT_CONTINUE("not_continue"),

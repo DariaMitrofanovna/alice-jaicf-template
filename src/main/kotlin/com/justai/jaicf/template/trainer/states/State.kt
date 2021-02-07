@@ -4,6 +4,7 @@ import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.alice
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.context.ActionContext
+import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
 
 abstract class State {
 
@@ -23,28 +24,28 @@ abstract class State {
     // fixme
 //    abstract val fallbackTexts: List<String>
     open val fallbackTexts: List<String> = listOf()
+    open val fallbackButtons: List<List<String>> = listOf()
 
     protected fun fallback(request: AliceBotRequest, alice: AliceReactions): State {
-//        alice.say("fallback")
-//        alice.endSession()
-//        return this
+        return when (fallbackDepth) {
+            0, 1 -> {
+                alice.say(fallbackTexts[fallbackDepth])
+                alice.buttons(*fallbackButtons[fallbackDepth].toTypedArray())
 
-
-        when (fallbackDepth) {
-            0 -> {
-                alice.say(fallbackTexts[0])
+                ++fallbackDepth
+                this
             }
-
-            1 -> {
-                alice.say(fallbackTexts[1])
-            }
-
             2 -> {
-                alice.say(fallbackTexts[2])
+                alice.say(RandomPhrasesRepository.terminateFallback.random)
+                alice.buttons("Сначала")
+                End()
+            }
+
+            // means 3
+            else -> {
+                throw IllegalStateException()
             }
         }
-        fallbackDepth++
-        return this
     }
 }
 
