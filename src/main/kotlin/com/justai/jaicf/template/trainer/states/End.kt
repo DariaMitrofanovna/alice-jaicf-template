@@ -2,6 +2,7 @@ package com.justai.jaicf.template.trainer.states
 
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
+import com.justai.jaicf.channel.yandexalice.api.model.Image
 import com.justai.jaicf.template.res.Images
 import com.justai.jaicf.template.util.intent.SimpleIntent
 import com.justai.jaicf.template.util.intent.hasSimpleIntent
@@ -18,8 +19,7 @@ class End : State() {
 
             else -> {
                 alice.image(
-                    url = Images.happyEndUrl, // todo: good bye triple
-                    title = "До скорого!"
+                    Image(Images.happyEnd, title = "До скорого!"),
                 )
                 alice.endSession()
                 this
