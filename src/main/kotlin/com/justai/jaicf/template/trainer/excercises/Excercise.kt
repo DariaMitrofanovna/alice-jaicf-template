@@ -4,7 +4,7 @@ import com.justai.jaicf.template.res.Audios
 
 private const val QUANTITY_PH = "(QUANTITY)"
 
-enum class Exercise(
+enum class Excercise(
     private val titleTemplate: String,
     val imageId: String = "1656841/bec994b6fc878b1a2746",
     val bodyPart: BodyPart,
@@ -53,7 +53,7 @@ enum class Exercise(
     PUSH_UPS_NARROW(
         titleTemplate = "$QUANTITY_PH отжиманий узким хватом",
         bodyPart = BodyPart.ARMS,
-        imageId = "213044/4c477dd25fb978bdbefd", // fixme
+        imageId = "1652229/dce30bcb54ad25f9a8dc",
         countable = true,
         quantity = 5 to 10,
         slow = true
@@ -61,15 +61,15 @@ enum class Exercise(
     PUSH_UPS_WIDE(
         titleTemplate = "$QUANTITY_PH отжиманий широким хватом",
         bodyPart = BodyPart.ARMS,
-        imageId = "213044/4c477dd25fb978bdbefd", // fixme
+        imageId = "213044/66ddc5984d267cb2737f",
         countable = true,
         quantity = 5 to 10,
         slow = true
     ),
-    PULL_UPS( // todo: hardcode
+    PULL_UPS(
         titleTemplate = "$QUANTITY_PH подтягиваний на турнике",
         bodyPart = BodyPart.ARMS,
-        imageId = "213044/4c477dd25fb978bdbefd", // fixme
+        imageId = "1521359/7d7b3b815e1a6b9dc1ba",
         countable = true,
         quantity = 5 to 10,
         slow = true
@@ -79,7 +79,7 @@ enum class Exercise(
     BURPY(
         titleTemplate = "$QUANTITY_PH бёрпи",
         bodyPart = BodyPart.BODY,
-        imageId = "213044/4c477dd25fb978bdbefd", // fixme
+        imageId = "1652229/582f28751a9d6a64b5ad",
         countable = true,
         quantity = 5 to 10,
         slow = true
@@ -87,7 +87,7 @@ enum class Exercise(
     PLANK(
         titleTemplate = "Планка $QUANTITY_PH секунд",
         bodyPart = BodyPart.BODY,
-        imageId = "213044/4c477dd25fb978bdbefd", // fixme
+        imageId = "937455/ff6bad62f120c90d9271",
         countable = false,
         quantity = 30 to 60,
     );
@@ -106,6 +106,9 @@ enum class Exercise(
     }
 
     fun music(hard: Boolean): String {
+//        return Audios.short // fixme: agon
+
+
         val count = if (hard) quantity.second else quantity.first
         println("agon: music count=$count, ${if (countable) "counts" else "static"}, ${if (slow) "slow" else "fast"}")
         return if (countable) {

@@ -16,11 +16,16 @@ enum class SimpleIntent(val id: String) {
     CONTINUE("continue"),
     NOT_CONTINUE("not_continue"),
     ENOUGH("enough"),
+
+    ON_THE_SPOT("onTheSpot"),
+
+    DIFFICULTY_HARD("difficultyHard"),
+    DIFFICULTY_LIGHT("difficultyLight"),
+
     YANDEX_CONFIRM(AliceIntent.CONFIRM),
     YANDEX_REJECT(AliceIntent.REJECT),
-    ON_THE_SPOT("onTheSpot"),
-    DIFFICULTY_HARD("difficultyHard"),
-    DIFFICULTY_LIGHT("difficultyLight")
+    YANDEX_HELP(AliceIntent.HELP),
+    YANDEX_WHAT_CAN_YOU_DO("YANDEX.WHAT_CAN_YOU_DO"),
 }
 
 fun AliceBotRequest.intent(id: String): Request.Nlu.Intent? {

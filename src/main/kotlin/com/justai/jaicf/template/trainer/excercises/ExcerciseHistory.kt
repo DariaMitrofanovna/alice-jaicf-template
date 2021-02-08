@@ -1,10 +1,10 @@
 package com.justai.jaicf.template.trainer.excercises
 
-class ExcerciseHistory private constructor(val exercises: ArrayList<Exercise> = arrayListOf()) {
+class ExcerciseHistory private constructor(val excercises: ArrayList<Excercise> = arrayListOf()) {
 
-    operator fun plus(next: Exercise): ExcerciseHistory {
+    operator fun plus(next: Excercise): ExcerciseHistory {
         return ExcerciseHistory(
-            ArrayList(exercises + next)
+            ArrayList(excercises + next)
         )
     }
 

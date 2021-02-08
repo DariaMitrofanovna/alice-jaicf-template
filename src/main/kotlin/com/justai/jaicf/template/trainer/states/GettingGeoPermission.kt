@@ -46,11 +46,12 @@ class GettingGeoPermission : State() {
         )
 
         val location = request.session.location
-        if (geo && location != null) {
+        if (false) {
+//        if (geo && location != null) { // todo: add route link
             alice.link(
-                    title = "Маршрут до места старта",
+                    title = "Кремль на Картах",
                     url = Links.kremlinPointMapsUrl
-                    // fixme: add route link
+
 //                url = "https://yandex.ru"
 //                ${location.lat}%2C${location.lon}
 //                url = "https://maps.yandex.ru/?rtext=53.9170029,27.584480199999998~55.8675,37.5928"
@@ -59,7 +60,7 @@ class GettingGeoPermission : State() {
             )
         } else {
             alice.link(
-                    title = "Место старта на Картах",
+                    title = "Кремль на Картах",
                     url = Links.kremlinPointMapsUrl
             )
         }

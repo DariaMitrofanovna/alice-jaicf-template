@@ -8,7 +8,7 @@ import com.justai.jaicf.template.util.intent.durationIntent
 class GettingDuration : State() {
     override val fallbackTexts: List<String> = listOf(
         "${RandomPhrasesRepository.notUnderstand.random} Как долго хотите позаниматься?",
-        "Мне нужно знать, сколько будем бегать. Скажите, например, \"30 минут\""
+        "Мне нужно знать, сколько будем бегать. Скажите, например, \"20 минут\""
     )
 
     override val fallbackButtons: List<List<String>> = listOf(
@@ -21,22 +21,14 @@ class GettingDuration : State() {
         val duration = request.durationIntent()?.duration
         return when {
             (duration != null) -> {
-//            if (duration == null) {
-//                duration = Duration.ofSeconds(3)
-//            }
-                alice.say("Прочитал длительность ${duration?.seconds} секунд. Хотите легкую или сложную тренировку?")
+                alice.say(
+                    "Понял Вас, это получается ... ${duration.seconds} секунд (люблю точность). Хотите легкую или сложную тренировку?",
+                    "Понял Вас, это получается sil <[2000]> ${duration.seconds} секунд (люблю точность). Хотите легкую или сложную тренировку?"
+                )
                 alice.buttons("Легкую", "Сложную")
                 TrainingStart(duration)
-
             }
-//            (request.request?.originalUtterance == "AGON") -> { // fixme: test
-//                val testDuration = Duration.ofSeconds(20)
-//                alice.say("Тестовая треня ${testDuration.seconds}. Вам полегче или посложнее?")
-//                alice.buttons("Полегче", "Посложнее")
-//                TrainingStart(testDuration)
-//            }
             else -> fallback(request, alice)
-
         }
     }
 }

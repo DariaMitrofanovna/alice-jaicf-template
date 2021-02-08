@@ -451,7 +451,7 @@ public class WeakIdentityHashMap<K,V> implements Map<K,V> {
         }
 
         for ( Iterator i = t.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry<K,V> e = (Map.Entry<K,V>) i.next(); //FIXME should not have to cast
+            Map.Entry<K,V> e = (Map.Entry<K,V>) i.next();
             put( e.getKey(), e.getValue() );
         }
     }

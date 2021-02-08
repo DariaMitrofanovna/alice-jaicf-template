@@ -3,7 +3,6 @@ package com.justai.jaicf.template.trainer.states
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.api.model.Image
-import com.justai.jaicf.template.res.Audios
 import com.justai.jaicf.template.trainer.common_models.GeoPoint
 import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
 import com.justai.jaicf.template.trainer.excercises.ExcerciseRepository
@@ -23,13 +22,19 @@ class GettingContinue(
         listOf("Продолжить", "Конец"),
         listOf("Сначала")
     )
+
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
 
         return when {
 
             // continue
             request.hasSimpleIntent(SimpleIntent.CONTINUE, SimpleIntent.YANDEX_CONFIRM) -> {
-                val nextExcercise = ExcerciseRepository.getNextRandomExcercise(prevRunning.excerciseHistory)
+                val nextExcercise =
+                    ExcerciseRepository.getNextRandomExcercise(
+                        prevRunning.excerciseHistory,
+                        kremlin = false,
+                        level = prevRunning.level
+                    )
                 val excerciseRandomTitle = nextExcercise.genRandomTitle(prevRunning.hard)
                 alice.say(
                     """
@@ -37,7 +42,13 @@ class GettingContinue(
                     """.trimIndent()
                 )
 
-                alice.image(Image(nextExcercise.imageId))
+                alice.image(
+                    Image(
+                        nextExcercise.imageId,
+                        title = excerciseRandomTitle,
+                        description = "Дальше будет бег, стоп-команда \"Олег\""
+                    )
+                )
                 alice.say(
                     "музыка",
                     tts = nextExcercise.music(hard = prevRunning.hard)
@@ -60,12 +71,12 @@ class GettingContinue(
             request.hasSimpleIntent(SimpleIntent.ENOUGH, SimpleIntent.YANDEX_REJECT) -> {
                 alice.say(
                     """
-                        Закончили, сразу не падай на землю, походи, восстанови дыхание.
-                        Ты пробежал ${path.size} точек! (посчитали по геолокации)
+                        Супер, завершаю тренировку.
+                        Рассказать Вам о результатах?
                     """.trimIndent()
                 )
-                alice.endSession()
-                return Final()
+                alice.buttons("Да!", "Не хочу")
+                NeedResults(path)
             }
 
             else -> fallback(request, alice)

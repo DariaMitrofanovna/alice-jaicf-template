@@ -10,4 +10,6 @@ object Audios {
     val music_30_times_fast = "<speaker audio=\"dialogs-upload/a80c89a2-d508-4008-9a33-6a8dc12e2895/6768252f-2ace-4a4b-872c-3fc50e9c190e.opus\">"
     val static_30_sec = "<speaker audio=\"dialogs-upload/a80c89a2-d508-4008-9a33-6a8dc12e2895/20c41f1f-9356-4d7c-8a54-bdb5203a790a.opus\">"
     val static_60_sec = "<speaker audio=\"dialogs-upload/a80c89a2-d508-4008-9a33-6a8dc12e2895/27b12036-ff02-4d2d-aa8d-8a8cd50f8f5b.opus\">"
+
+    val short = "<speaker audio=\"dialogs-upload/a80c89a2-d508-4008-9a33-6a8dc12e2895/fa59f2c4-5260-42f8-a762-6f9d637bb537.opus\">"
 }

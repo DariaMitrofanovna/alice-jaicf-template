@@ -3,12 +3,11 @@ package com.justai.jaicf.template.trainer.states
 import com.justai.jaicf.channel.yandexalice.AliceReactions
 import com.justai.jaicf.channel.yandexalice.api.AliceBotRequest
 import com.justai.jaicf.channel.yandexalice.api.model.Image
-import com.justai.jaicf.template.res.Audios
 import com.justai.jaicf.template.trainer.common_models.GeoPoint
 import com.justai.jaicf.template.trainer.common_models.RandomPhrasesRepository
 import com.justai.jaicf.template.trainer.excercises.ExcerciseHistory
 import com.justai.jaicf.template.trainer.excercises.ExcerciseRepository
-import com.justai.jaicf.template.trainer.excercises.Exercise
+import com.justai.jaicf.template.trainer.excercises.Excercise
 import com.justai.jaicf.template.trainer.excercises.KremlinRoute
 import com.justai.jaicf.template.util.intent.SimpleIntent
 import com.justai.jaicf.template.util.intent.hasSimpleIntent
@@ -16,7 +15,7 @@ import java.time.Duration
 import java.time.LocalTime
 
 class Running(
-        private val level: Int = 0,
+        val level: Int = 0,
         val excerciseHistory: ExcerciseHistory = ExcerciseHistory.empty(),
         private val trainingStartTime: LocalTime,
         private val chosenDuration: Duration?,
@@ -46,8 +45,16 @@ class Running(
             (request.hasSimpleIntent(SimpleIntent.OLEG, SimpleIntent.YANDEX_CONFIRM)) -> {
                 oleg(request, alice)
             }
-            (request.hasSimpleIntent(SimpleIntent.ENOUGH)) -> {
-                Final().handleInternal(request, alice)
+
+            request.hasSimpleIntent(SimpleIntent.ENOUGH) -> {
+                alice.say(
+                    """
+                        Хорошо, закончили.
+                        Рассказать Вам о результатах?
+                    """.trimIndent()
+                )
+                alice.buttons("Да!", "Не хочу")
+                NeedResults(path)
             }
             else -> {
                 fallback(request, alice)
@@ -70,11 +77,10 @@ class Running(
 
         println("agon: currentDuration: ${currentDuration.seconds}, chosen: ${chosenDuration?.seconds}, overTime: $overTime")
 
-        val nextExcercise = ExcerciseRepository.getNextRandomExcercise(excerciseHistory)
+        val nextExcercise = ExcerciseRepository.getNextRandomExcercise(excerciseHistory, kremlin, level)
         val excerciseRandomTitle = nextExcercise.genRandomTitle(hard)
 
         if (final) {
-            // todo: has been done 1 or more excercises?
             alice.say(
                     """
                     Осталось совсем чуть-чуть - это финальное упражнение на сегодня. $excerciseRandomTitle
@@ -89,12 +95,14 @@ class Running(
         }
 
         val description = when {
-            final -> ""
+            final && kremlin -> "Дальше могу расскзать о результатах"
+            final && !kremlin -> "И время закончилось"
             kremlin -> {
                 val nextPoint = KremlinRoute.points[level + 1]
-                "Следующая точка - ${nextPoint.runToName}"
+                "Следующая точка - ${nextPoint.name}"
             }
-            else -> "Дальше будет бег, стоп-команда \"Олег\""
+            else -> "Дальше будет бег, для перехода к упражнениям, позовите \"Олега\" " +
+                    if (overTime) "(а для завершения тренировки скажите, что устали)" else ""
         }
 
         alice.image(
@@ -111,16 +119,14 @@ class Running(
 
         if (final) {
             return if (kremlin) {
-                // todo: distance
-                alice.say( // fixme: text
-                        """
-                        Ура! Закончили.
-                        Вы пробежали путь из ${newPath.size} точек!
+                alice.say(
+                    """
+                        Ура! Тренировка закончена.
+                        Рассказать Вам о результатах?
                     """.trimIndent()
                 )
-                // todo: todo final suggests
-                alice.endSession()
-                HappyEnd()
+                alice.buttons("Да!", "Не хочу")
+                NeedResults(newPath)
             } else {
                 alice.say(
                         """
@@ -128,23 +134,23 @@ class Running(
                      Можем завершить тренировку или еще позаниматься. Продолжаем?
                 """.trimIndent()
                 )
-                alice.buttons("Продолжаем!", "Заканчиваем") // todo: texts
+                alice.buttons("Продолжаем!", "Заканчиваем")
                 GettingContinue(this, newPath)
             }
         } else {
             if (kremlin) {
                 val nextPoint = KremlinRoute.points[level + 1]
-                //alice.link("Следующая точка - ${nextPoint.runToName}", "https://ya.ru")
                 alice.say(
                         """
-                        Отлично! Продолжаем бег. Теперь бегите до ${nextPoint.runToName}. 
+                        Отлично! Продолжаем бег. Теперь бегите ${nextPoint.runToName}. 
                         Скажите "Олег", когда будете там!
                     """.trimIndent()
                 )
             } else {
                 alice.say(
                         """
-                        Отлично! Продолжаем бег. Я жду от Вас команду "Олег" для перехода к упражнениям
+                        Отлично! Продолжаем бег. 
+                        Я жду от Вас команду "Олег" для перехода к упражнениям.  ${if (overTime) "В любой момент скажите, что устали, и мы закончим." else ""} 
                     """.trimIndent()
                 )
             }
@@ -165,11 +171,11 @@ class Running(
         }
     }
 
-    fun continueRunning(nextExercise: Exercise, path: List<GeoPoint?>): Running {
+    fun continueRunning(nextExcercise: Excercise, path: List<GeoPoint?>): Running {
         return Running(
                 level = level + 1,
                 trainingStartTime = trainingStartTime,
-                excerciseHistory = excerciseHistory + nextExercise,
+                excerciseHistory = excerciseHistory + nextExcercise,
                 chosenDuration = chosenDuration,
                 overTime = true,
                 hard = hard,

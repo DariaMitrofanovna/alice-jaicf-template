@@ -35,5 +35,3 @@ fun fast(text: String) = prosody(text, rate = "fast")
 fun xfast(text: String) = prosody(text, rate = "x-fast")
 
 fun audio(url: String) = "<audio src='${url.toUrl()}'/>"
-
-//TODO pitch and volume
