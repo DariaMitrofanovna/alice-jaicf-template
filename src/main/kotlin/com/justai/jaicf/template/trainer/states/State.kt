@@ -21,20 +21,13 @@ abstract class State {
         return this
     }
 
-//    open fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
-//        when {
-//            request.hasSimpleIntent(SimpleIntent.YANDEX_HELP) -> {
-//                alice.say("ПОМОЩЬ")
-//            }
-//
-//            request
-//        }
-//    }
-
     protected var fallbackDepth = 0
 
-    open val fallbackTexts: List<String> = listOf()
-    open val fallbackButtons: List<List<String>> = listOf()
+    open val fallbackTexts: List<String> = listOf("", "")
+    open val fallbackButtons: List<List<String>> = listOf(
+        listOf(),
+        listOf()
+    )
 
     protected fun fallback(request: AliceBotRequest, alice: AliceReactions): State {
 

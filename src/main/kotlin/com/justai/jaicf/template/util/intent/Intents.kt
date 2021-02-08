@@ -26,6 +26,7 @@ enum class SimpleIntent(val id: String) {
     YANDEX_REJECT(AliceIntent.REJECT),
     YANDEX_HELP(AliceIntent.HELP),
     YANDEX_WHAT_CAN_YOU_DO("YANDEX.WHAT_CAN_YOU_DO"),
+    YANDEX_REPEAT(AliceIntent.REPEAT),
 }
 
 fun AliceBotRequest.intent(id: String): Request.Nlu.Intent? {

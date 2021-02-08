@@ -56,15 +56,20 @@ class Running(
                 alice.buttons("Да!", "Не хочу")
                 NeedResults(path)
             }
+
+            request.hasSimpleIntent(SimpleIntent.YANDEX_REPEAT) -> {
+                return oleg(request, alice, repeat = true)
+            }
+
             else -> {
                 fallback(request, alice)
             }
         }
     }
 
-    fun oleg(request: AliceBotRequest, alice: AliceReactions): State {
+    fun oleg(request: AliceBotRequest, alice: AliceReactions, repeat: Boolean = false): State {
         val currentGeo = request.session.location?.let(GeoPoint::fromLocation)
-        val newPath = path + currentGeo
+        val newPath = if (!repeat) path + currentGeo else path
 
         val currentDuration = Duration.between(trainingStartTime, LocalTime.now())
 
@@ -77,7 +82,11 @@ class Running(
 
         println("agon: currentDuration: ${currentDuration.seconds}, chosen: ${chosenDuration?.seconds}, overTime: $overTime")
 
-        val nextExcercise = ExcerciseRepository.getNextRandomExcercise(excerciseHistory, kremlin, level)
+        val nextExcercise = if (!repeat) {
+            ExcerciseRepository.getNextRandomExcercise(excerciseHistory, kremlin, level)
+        } else {
+            excerciseHistory.excercises.last()
+        }
         val excerciseRandomTitle = nextExcercise.genRandomTitle(hard)
 
         if (final) {

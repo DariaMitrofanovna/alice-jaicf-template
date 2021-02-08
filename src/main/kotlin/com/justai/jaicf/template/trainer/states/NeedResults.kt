@@ -13,7 +13,7 @@ import com.justai.jaicf.template.util.intent.hasSimpleIntent
 class NeedResults(private val path: List<GeoPoint?>) : State() {
     override fun handleInternal(request: AliceBotRequest, alice: AliceReactions): State {
         println("agon: need results")
-        val distance = distance(path.size)
+        val distance = distance(path)
         val text = if (request.hasSimpleIntent(SimpleIntent.YANDEX_CONFIRM)) {
             """
                Вы сделали ${path.size} разных силовых упражнений и пробежали $distance.
@@ -39,14 +39,18 @@ class NeedResults(private val path: List<GeoPoint?>) : State() {
         alice.say(text, tts)
         alice.buttons("О да!", "Не сегодня") // final suggests
         alice.image(
-            Image(Images.happyEnd, text),
+            Image(Images.happyEnd, "Классно позанимались, повторим?"),
         )
 
         return RepeatToBeginning()
     }
 
-    fun distance(points: Int): String {
-        return when (points) {
+    fun distance(path: List<GeoPoint?>): String {
+        if (path.all { it == null }) {
+            return "прилично, но без геолокации посчитать было нельзя"
+        }
+
+        return when (path.size) {
             in 0..2 -> RandomPhrase(
                 "несколько сот метров",
                 "совсем немного"
